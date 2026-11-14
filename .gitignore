@@ -1,0 +1,64 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies & Build outputs
+node_modules
+dist
+dist-ssr
+
+# Environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# Local scratch / QA artifacts
+/*.png
+/check_sticky.js
+/inspect_*.js
+/test_scroll.js
+.impeccable/
+outputs/
+docs/
+
+# Ignore unused draft videos; keep only active production videos
+public/videos/*.mp4
+!public/videos/01-whatsapp-network.mp4
+!public/videos/02-ai-agent-sphere.mp4
+!public/videos/04-fullstack-code.mp4
+!public/videos/05-ai-cinema-earth.mp4
+!public/videos/bengaluru-tech-park.mp4
+!public/videos/clean-ai-dev-screen.mp4
+!public/videos/clean-audit-whiteboard.mp4
+!public/videos/clean-marketing-laptop.mp4
+!public/videos/clean-search-engine.mp4
+!public/videos/hero-neural-globe.mp4
+!public/videos/home-sol04-workflows.mp4
+!public/videos/home-whatsapp-crm.mp4
+!public/videos/pure-sol01-personalisation.mp4
+!public/videos/pure-sol03-workforce.mp4
+!public/videos/rel-automation-ops.mp4
+!public/videos/rel-bengaluru-office.mp4
+!public/videos/rel-crm-sync.mp4
+!public/videos/rel-growth-hud.mp4
+!public/videos/rel-manual-stress.mp4
+!public/videos/rel-project-roadmap.mp4
+!public/videos/rel-systems-team.mp4
+!public/videos/v11-tech-47051.mp4
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

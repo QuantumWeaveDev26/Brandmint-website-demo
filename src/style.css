@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-italic.woff2') format('woff2');
+}
+
+@layer base {
+  :root {
+    --ink-950: #0a0224;
+    --ink-900: #0e0433;
+    --ink-850: #120642;
+    --ink-800: #160952;
+    --ink-700: #312185;
+    --ink-500: #7265c2;
+    --ink-200: #ccc7f2;
+  }
+
+  html,
+  body {
+    background-color: #0a0224;
+    color: #f5f3ff;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+}
+
+/* Editorial Serif Accent Utility */
+.font-editorial {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.font-display {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+/* Ink Nocturne Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0224;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #312185 0%, #7265c2 55%, #ccc7f2 100%);
+  border-radius: 9999px;
+}
+
+/* Exact 7-Shade Ink Nocturne Mesh Canvas (Zero GPU Blur Cost) */
+.aurora-canvas,
+.arch-grid-bg {
+  background-color: #0a0224;
+  background-image:
+    radial-gradient(ellipse 68% 52% at 50% 0%, rgba(49, 33, 133, 0.55) 0%, rgba(22, 9, 82, 0.28) 48%, transparent 76%),
+    radial-gradient(ellipse 55% 45% at 15% 22%, rgba(114, 101, 194, 0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 45% at 85% 78%, rgba(49, 33, 133, 0.35) 0%, transparent 70%);
+}
+
+.aurora-dots-bg,
+.arch-dots-bg {
+  background-color: #0e0433;
+  background-image:
+    radial-gradient(at 80% 15%, rgba(114, 101, 194, 0.18) 0px, transparent 55%),
+    radial-gradient(at 15% 85%, rgba(49, 33, 133, 0.32) 0px, transparent 55%),
+    radial-gradient(rgba(204, 199, 242, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 22px 22px;
+}
+
+/* Crisp luminous gradient on accent headlines (zero idle repaint cost) */
+.text-outline-black,
+.text-brand-gradient,
+.text-aurora {
+  background: linear-gradient(110deg, #ffffff 0%, #ccc7f2 48%, #9d91e2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 0px transparent;
+}
+
+.text-aurora-warm {
+  background: linear-gradient(105deg, #ffffff 0%, #ccc7f2 55%, #7265c2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Signature 3D Extruded Royal Ink & Iris CTA Button */
+.btn-aurora,
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #312185 0%, #5241ab 48%, #7265c2 100%);
+  border: 1px solid rgba(204, 199, 242, 0.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 0 -1px #160952,
+    0 10px 26px -6px rgba(114, 101, 194, 0.52);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.2s ease;
+}
+
+.btn-aurora:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1.5px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 6px 0 -1px #160952,
+    0 16px 32px -6px rgba(114, 101, 194, 0.65);
+}
+
+.btn-aurora:active {
+  transform: translateY(1.5px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 2px 0 -1px #160952,
+    0 6px 14px -4px rgba(114, 101, 194, 0.45);
+}
+
+/* Zero-Lag GPU Spatial Ink Surfaces */
+.glass-frame,
+.bw-frame {
+  background: linear-gradient(180deg, rgba(22, 9, 82, 0.92) 0%, rgba(14, 4, 51, 0.96) 100%);
+  border: 1px solid rgba(114, 101, 194, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(204, 199, 242, 0.22),
+    0 8px 0 -2px rgba(10, 2, 36, 0.94),
+    0 20px 44px -16px rgba(5, 1, 20, 0.82);
+  transition: border-color 0.25s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-card,
+.bw-card {
+  background: linear-gradient(180deg, rgba(22, 9, 82, 0.84) 0%, rgba(18, 6, 66, 0.92) 100%);
+  border: 1px solid rgba(204, 199, 242, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(204, 199, 242, 0.15),
+    0 6px 0 -2px rgba(10, 2, 36, 0.88),
+    0 14px 28px -12px rgba(5, 1, 20, 0.7);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.25s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.25s ease;
+}
+
+.glass-card:hover,
+.bw-card:hover {
+  border-color: rgba(204, 199, 242, 0.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 9px 0 -2px rgba(14, 4, 51, 0.95),
+    0 20px 40px -12px rgba(114, 101, 194, 0.42);
+}
+
+.glass-card-active,
+.bw-card-active {
+  background: linear-gradient(145deg, rgba(49, 33, 133, 0.94) 0%, rgba(22, 9, 82, 0.96) 60%, rgba(114, 101, 194, 0.44) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(204, 199, 242, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 8px 0 -2px rgba(14, 4, 51, 0.96),
+    0 20px 44px -12px rgba(114, 101, 194, 0.46);
+}
+
+/* Official Lenis 1.3 Smooth Scroll Styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Hardware-composited direct video rendering */
+video {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid #ccc7f2;
+  outline-offset: 3px;
+}
+
+.brandmint-dialog::backdrop { background: rgba(10, 2, 36, .88); }
+.brandmint-dialog { overscroll-behavior: contain; }
+.skip-link { position: fixed; top: -100px; left: 1rem; z-index: 100; padding: .8rem 1.2rem; background: #ccc7f2; color: #0a0224; border-radius: .5rem; }
+.skip-link:focus { top: .75rem; }
+
+@media (max-width: 767px) {
+  main input:not([type="range"]), main textarea { font-size: 16px; }
+}
+
+@media (max-width: 350px) { .nav-brand-copy { display: none; } }
+@media (max-width: 639px) {
+  .support-launcher { width: 46px; height: 46px; padding: 0; }
+}

@@ -1,0 +1,112 @@
+{
+  "/videos/02-ai-agent-sphere.mp4": {
+    "desktop": "/videos/optimized/02-ai-agent-sphere-desktop.mp4",
+    "mobile": "/videos/optimized/02-ai-agent-sphere-mobile.mp4",
+    "poster": "/videos/optimized/02-ai-agent-sphere-poster.webp"
+  },
+  "/videos/rel-manual-stress.mp4": {
+    "desktop": "/videos/optimized/rel-manual-stress-desktop.mp4",
+    "mobile": "/videos/optimized/rel-manual-stress-mobile.mp4",
+    "poster": "/videos/optimized/rel-manual-stress-poster.webp"
+  },
+  "/videos/rel-automation-ops.mp4": {
+    "desktop": "/videos/optimized/rel-automation-ops-desktop.mp4",
+    "mobile": "/videos/optimized/rel-automation-ops-mobile.mp4",
+    "poster": "/videos/optimized/rel-automation-ops-poster.webp"
+  },
+  "/videos/pure-sol01-personalisation.mp4": {
+    "desktop": "/videos/optimized/pure-sol01-personalisation-desktop.mp4",
+    "mobile": "/videos/optimized/pure-sol01-personalisation-mobile.mp4",
+    "poster": "/videos/optimized/pure-sol01-personalisation-poster.webp"
+  },
+  "/videos/rel-systems-team.mp4": {
+    "desktop": "/videos/optimized/rel-systems-team-desktop.mp4",
+    "mobile": "/videos/optimized/rel-systems-team-mobile.mp4",
+    "poster": "/videos/optimized/rel-systems-team-poster.webp"
+  },
+  "/videos/pure-sol03-workforce.mp4": {
+    "desktop": "/videos/optimized/pure-sol03-workforce-desktop.mp4",
+    "mobile": "/videos/optimized/pure-sol03-workforce-mobile.mp4",
+    "poster": "/videos/optimized/pure-sol03-workforce-poster.webp"
+  },
+  "/videos/home-sol04-workflows.mp4": {
+    "desktop": "/videos/optimized/home-sol04-workflows-desktop.mp4",
+    "mobile": "/videos/optimized/home-sol04-workflows-mobile.mp4",
+    "poster": "/videos/optimized/home-sol04-workflows-poster.webp"
+  },
+  "/videos/rel-project-roadmap.mp4": {
+    "desktop": "/videos/optimized/rel-project-roadmap-desktop.mp4",
+    "mobile": "/videos/optimized/rel-project-roadmap-mobile.mp4",
+    "poster": "/videos/optimized/rel-project-roadmap-poster.webp"
+  },
+  "/videos/clean-search-engine.mp4": {
+    "desktop": "/videos/optimized/clean-search-engine-desktop.mp4",
+    "mobile": "/videos/optimized/clean-search-engine-mobile.mp4",
+    "poster": "/videos/optimized/clean-search-engine-poster.webp"
+  },
+  "/videos/home-whatsapp-crm.mp4": {
+    "desktop": "/videos/optimized/home-whatsapp-crm-desktop.mp4",
+    "mobile": "/videos/optimized/home-whatsapp-crm-mobile.mp4",
+    "poster": "/videos/optimized/home-whatsapp-crm-poster.webp"
+  },
+  "/videos/05-ai-cinema-earth.mp4": {
+    "desktop": "/videos/optimized/05-ai-cinema-earth-desktop.mp4",
+    "mobile": "/videos/optimized/05-ai-cinema-earth-mobile.mp4",
+    "poster": "/videos/optimized/05-ai-cinema-earth-poster.webp"
+  },
+  "/videos/hero-neural-globe.mp4": {
+    "desktop": "/videos/optimized/hero-neural-globe-desktop.mp4",
+    "mobile": "/videos/optimized/hero-neural-globe-mobile.mp4",
+    "poster": "/videos/optimized/hero-neural-globe-poster.webp"
+  },
+  "/videos/01-whatsapp-network.mp4": {
+    "desktop": "/videos/optimized/01-whatsapp-network-desktop.mp4",
+    "mobile": "/videos/optimized/01-whatsapp-network-mobile.mp4",
+    "poster": "/videos/optimized/01-whatsapp-network-poster.webp"
+  },
+  "/videos/rel-growth-hud.mp4": {
+    "desktop": "/videos/optimized/rel-growth-hud-desktop.mp4",
+    "mobile": "/videos/optimized/rel-growth-hud-mobile.mp4",
+    "poster": "/videos/optimized/rel-growth-hud-poster.webp"
+  },
+  "/videos/v11-tech-47051.mp4": {
+    "desktop": "/videos/optimized/v11-tech-47051-desktop.mp4",
+    "mobile": "/videos/optimized/v11-tech-47051-mobile.mp4",
+    "poster": "/videos/optimized/v11-tech-47051-poster.webp"
+  },
+  "/videos/rel-bengaluru-office.mp4": {
+    "desktop": "/videos/optimized/rel-bengaluru-office-desktop.mp4",
+    "mobile": "/videos/optimized/rel-bengaluru-office-mobile.mp4",
+    "poster": "/videos/optimized/rel-bengaluru-office-poster.webp"
+  },
+  "/videos/04-fullstack-code.mp4": {
+    "desktop": "/videos/optimized/04-fullstack-code-desktop.mp4",
+    "mobile": "/videos/optimized/04-fullstack-code-mobile.mp4",
+    "poster": "/videos/optimized/04-fullstack-code-poster.webp"
+  },
+  "/videos/clean-marketing-laptop.mp4": {
+    "desktop": "/videos/optimized/clean-marketing-laptop-desktop.mp4",
+    "mobile": "/videos/optimized/clean-marketing-laptop-mobile.mp4",
+    "poster": "/videos/optimized/clean-marketing-laptop-poster.webp"
+  },
+  "/videos/rel-crm-sync.mp4": {
+    "desktop": "/videos/optimized/rel-crm-sync-desktop.mp4",
+    "mobile": "/videos/optimized/rel-crm-sync-mobile.mp4",
+    "poster": "/videos/optimized/rel-crm-sync-poster.webp"
+  },
+  "/videos/clean-audit-whiteboard.mp4": {
+    "desktop": "/videos/optimized/clean-audit-whiteboard-desktop.mp4",
+    "mobile": "/videos/optimized/clean-audit-whiteboard-mobile.mp4",
+    "poster": "/videos/optimized/clean-audit-whiteboard-poster.webp"
+  },
+  "/videos/bengaluru-tech-park.mp4": {
+    "desktop": "/videos/optimized/bengaluru-tech-park-desktop.mp4",
+    "mobile": "/videos/optimized/bengaluru-tech-park-mobile.mp4",
+    "poster": "/videos/optimized/bengaluru-tech-park-poster.webp"
+  },
+  "/videos/clean-ai-dev-screen.mp4": {
+    "desktop": "/videos/optimized/clean-ai-dev-screen-desktop.mp4",
+    "mobile": "/videos/optimized/clean-ai-dev-screen-mobile.mp4",
+    "poster": "/videos/optimized/clean-ai-dev-screen-poster.webp"
+  }
+}
