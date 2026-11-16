@@ -121,7 +121,7 @@ export const BusinessGrowthPage: React.FC<BusinessGrowthPageProps> = ({ onOpenBo
                   maxTilt={4}
                   onClick={() => setActiveStep(idx)}
                   onMouseEnter={() => setActiveStep(idx)}
-                  className={`h-full p-4 sm:p-5 rounded-2xl transition-all text-left flex flex-col justify-between gap-3 cursor-pointer ${
+                  className={`h-full p-4 sm:p-5 rounded-2xl transition-all text-left flex flex-col justify-start gap-3 cursor-pointer ${
                     active ? 'glass-card-active' : 'glass-card'
                   }`}
                 >

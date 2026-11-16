@@ -486,8 +486,8 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
                       disableRemotePlayback
                       preload={isCurrent ? 'auto' : 'metadata'}
                       aria-hidden="true"
-                      className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-200 ${
-                        isCurrent ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                      className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        isCurrent ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-[1.03] z-0'
                       }`}
                     />
                   );

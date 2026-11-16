@@ -14,8 +14,8 @@ const DIVISIONS = [
   {
     num: '01',
     title: 'Enterprise AI Systems',
-    tag: 'Personalise',
-    desc: 'Personalised customer journeys, CRM & WhatsApp sync.',
+    tag: 'Personalize',
+    desc: 'Personalized customer journeys, CRM & WhatsApp sync.',
     icon: Cpu,
   },
   {
@@ -45,7 +45,7 @@ const AUDIENCES = [
   { name: 'Enterprises & Mid-Market', focus: 'AI integration & workforce multipliers' },
   { name: 'Business Leaders & CXOs', focus: 'Executive AI briefs & action closure' },
   { name: 'AI-First Institutions', focus: 'Adaptive learning & JobMatrix' },
-  { name: 'Growth & Revenue Teams', focus: 'Personalised journeys & CRM sync' },
+  { name: 'Growth & Revenue Teams', focus: 'Personalized journeys & CRM sync' },
   { name: 'Communities & Creators', focus: 'Quantum Weave™ smart commerce' },
   { name: 'Founders & Builders', focus: 'AI Campus literacy & venture IP' },
 ];
@@ -80,7 +80,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking, onNavigate 
             </span>
           </h1>
           <p className="text-sm sm:text-base text-[#F5F3FF]/90 max-w-xl mx-auto mt-2.5 leading-relaxed">
-            Personalised AI systems, connected workflows, and enduring venture IP from Bengaluru.
+            Personalized AI systems, connected workflows, and enduring venture IP from Bengaluru.
           </p>
 
           <div className="mt-8 rounded-2xl overflow-hidden glass-frame text-left p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0E0433]/94">
@@ -212,7 +212,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking, onNavigate 
                   maxTilt={4}
                   onClick={() => setActiveDiv(idx)}
                   onMouseEnter={() => setActiveDiv(idx)}
-                  className={`h-full p-4 sm:p-5 rounded-2xl transition-all cursor-pointer flex flex-col justify-between gap-3 ${
+                  className={`h-full p-4 sm:p-5 rounded-2xl transition-all cursor-pointer flex flex-col justify-start gap-3 ${
                     active ? 'glass-card-active' : 'glass-card'
                   }`}
                 >
@@ -248,7 +248,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking, onNavigate 
                   <span className="text-[11px] text-[#CCC7F2]/70 font-semibold">01 &bull; Everyday Value</span>
                 </div>
                 <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
-                  Personalised AI &amp;{' '}
+                  Personalized AI &amp;{' '}
                   <span className="font-editorial text-2xl sm:text-[30px] text-aurora">Human Leverage.</span>
                 </h3>
                 <p className="text-xs sm:text-sm text-[#CCC7F2]/85 mt-2 leading-relaxed">

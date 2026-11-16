@@ -8,9 +8,9 @@ import { dispatchLeadWebhook } from '../utils/telemetry';
 const PATHWAYS = ['Improve follow-up', 'Automate workflows', 'Executive & campus AI', 'Help me choose'];
 
 const CHANNELS = [
-  { name: 'LinkedIn', handle: 'BrandMint AI', url: 'https://www.linkedin.com/company/brandmint-ai' },
+  { name: 'LinkedIn', handle: 'BrandMint AI Pvt. Ltd.', url: 'https://www.linkedin.com/company/brandmintai-pvt-ltd/' },
   { name: 'AI Campus', handle: 'hybridai.in', url: 'https://hybridai.in/' },
-  { name: 'Instagram', handle: '@brandmintai', url: 'https://www.instagram.com/brandmintai' },
+  { name: 'Instagram', handle: '@team.brandmint', url: 'https://www.instagram.com/team.brandmint?exln=cjRvaWRkN3hhMzht' },
   { name: 'YouTube', handle: '@brandmintai', url: 'https://www.youtube.com/@brandmintai' },
 ];
 

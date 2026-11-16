@@ -273,34 +273,57 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
           </ProTiltCard>
         </div>
 
-        {/* Right: Live WhatsApp Automated Chat Device */}
-        <div className="lg:col-span-7 flex justify-center">
-          <ProTiltCard maxTilt={3.5} className="w-full rounded-[28px] overflow-hidden glass-frame flex flex-col">
-            {/* WhatsApp Header */}
-            <div className="bg-gradient-to-r from-[#160952] via-[#312185] to-[#160952] border-b border-[#7265C2]/35 px-4 sm:px-5 py-3.5 flex items-center justify-between text-white">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white p-0.5 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
-                  <img src={brandmintLogo} alt="BrandMint AI" className="w-full h-full object-cover" />
+        {/* Right: Smartphone Mockup with Live Automated WhatsApp Messages */}
+        <div className="lg:col-span-7 flex flex-col items-center">
+          <ProTiltCard
+            maxTilt={4}
+            className="w-full max-w-[350px] rounded-[42px] p-2 bg-gradient-to-b from-[#312185]/95 via-[#160952] to-[#0A0224] border border-[#CCC7F2]/30 shadow-[0_28px_70px_rgba(4,1,20,0.9),0_0_40px_rgba(114,101,194,0.22)]"
+          >
+            <div className="w-full rounded-[34px] overflow-hidden bg-[#09021E] border border-[#7265C2]/30 flex flex-col">
+              {/* Phone Status Bar + Dynamic Island */}
+              <div className="bg-[#120642] px-5 pt-2.5 pb-1.5 flex items-center justify-between text-[10px] font-semibold text-white/90">
+                <span className="tabular-nums">9:41</span>
+                <div className="w-20 h-4 rounded-full bg-[#040110] border border-white/10 flex items-center justify-end px-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#312185] ring-1 ring-[#7265C2]/50" />
                 </div>
-                <div className="text-left">
-                  <div className="flex items-center gap-1.5 font-display font-bold text-xs sm:text-sm text-white">
-                    <span>BrandMint WhatsApp AI</span>
-                    <span className="w-2 h-2 rounded-full bg-[#25D366]" />
-                  </div>
-                  <span className="text-[11px] text-[#CCC7F2] flex items-center gap-1">
-                    <CheckCheck className="w-3 h-3 text-[#25D366]" />
-                    <span>Verified Business API • Online</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="inline-flex items-end gap-[1.5px] h-2.5" aria-hidden="true">
+                    <span className="w-[2px] h-1 bg-white/85 rounded-full" />
+                    <span className="w-[2px] h-1.5 bg-white/85 rounded-full" />
+                    <span className="w-[2px] h-2 bg-white/85 rounded-full" />
+                    <span className="w-[2px] h-2.5 bg-white/85 rounded-full" />
+                  </span>
+                  <span className="w-4 h-2 rounded-[3px] border border-white/70 p-[1px] flex items-center" aria-hidden="true">
+                    <span className="w-full h-full bg-[#25D366] rounded-[1px]" />
                   </span>
                 </div>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#0E0433]/85 border border-[#25D366]/40 text-[#25D366] text-[10px] font-semibold">
-                Automated
-              </span>
-            </div>
 
-            {/* Non-Scroll-Trapping Message Stage */}
-            <div className="min-h-[305px] sm:min-h-[315px] aurora-dots-bg px-4 py-3.5 flex flex-col justify-between gap-2.5 text-xs">
-              <div className="space-y-2.5">
+              {/* WhatsApp Header */}
+              <div className="bg-gradient-to-r from-[#160952] via-[#312185] to-[#160952] border-b border-[#7265C2]/35 px-3.5 py-2.5 flex items-center justify-between text-white">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-8 h-8 rounded-full bg-white p-0.5 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                    <img src={brandmintLogo} alt="BrandMint AI" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="text-left min-w-0">
+                    <div className="flex items-center gap-1.5 font-display font-bold text-xs text-white truncate">
+                      <span className="truncate">BrandMint WhatsApp AI</span>
+                      <span className="w-2 h-2 rounded-full bg-[#25D366] shrink-0" />
+                    </div>
+                    <span className="text-[10px] text-[#CCC7F2] flex items-center gap-1 truncate">
+                      <CheckCheck className="w-3 h-3 text-[#25D366] shrink-0" />
+                      <span className="truncate">Verified Business • Online</span>
+                    </span>
+                  </div>
+                </div>
+                <span className="px-2 py-0.5 rounded-full bg-[#0E0433]/85 border border-[#25D366]/40 text-[#25D366] text-[9px] font-semibold shrink-0">
+                  Automated
+                </span>
+              </div>
+
+              {/* Phone Screen Message Stage (Fixed Height — Never Enlarges) */}
+              <div className="h-[355px] overflow-y-auto aurora-dots-bg px-3 py-3 flex flex-col justify-between gap-2.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="space-y-2.5">
                 <AnimatePresence mode="popLayout">
                   {messages.map((m) => (
                     <motion.div
@@ -359,26 +382,32 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
               </div>
             </div>
 
-            {/* Action Bar */}
-            <div className="bg-[#0E0433] px-4 py-2.5 flex items-center justify-between gap-2 border-t border-[#7265C2]/30 text-xs relative z-30">
-              <a
-                href="https://wa.me/919972965677?text=Hi%20BrandMint%20AI%2C%20I%20would%20like%20to%20test%20WhatsApp%20Automation%20for%20our%20business."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-[#051b0d] font-bold transition-all"
-              >
-                <span>Try Live on WhatsApp</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-              {onOpenBooking && (
-                <button
-                  type="button"
-                  onClick={onOpenBooking}
-                  className="px-3.5 py-1.5 rounded-full bg-[#160952] hover:bg-[#312185] border border-[#7265C2]/40 text-[#CCC7F2] hover:text-white font-semibold transition-all cursor-pointer"
+              {/* Action Bar */}
+              <div className="bg-[#0E0433] px-3 py-2 flex items-center justify-between gap-2 border-t border-[#7265C2]/30 text-[11px] relative z-30">
+                <a
+                  href="https://wa.me/919972965677?text=Hi%20BrandMint%20AI%2C%20I%20would%20like%20to%20test%20WhatsApp%20Automation%20for%20our%20business."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-[#051b0d] font-bold transition-all"
                 >
-                  Scope Automation
-                </button>
-              )}
+                  <span>Try Live</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+                {onOpenBooking && (
+                  <button
+                    type="button"
+                    onClick={onOpenBooking}
+                    className="px-3 py-1.5 rounded-full bg-[#160952] hover:bg-[#312185] border border-[#7265C2]/40 text-[#CCC7F2] hover:text-white font-semibold transition-all cursor-pointer"
+                  >
+                    Scope Automation
+                  </button>
+                )}
+              </div>
+
+              {/* Phone Home Indicator */}
+              <div className="bg-[#09021E] pt-1 pb-2 flex justify-center">
+                <span className="w-24 h-1 rounded-full bg-white/30" aria-hidden="true" />
+              </div>
             </div>
           </ProTiltCard>
         </div>

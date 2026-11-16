@@ -13,15 +13,18 @@ export const MonoSplitTransformation: React.FC = () => {
 
   const isDragging = useRef(false);
   const introPlayed = useRef(false);
+  const currentPctRef = useRef(50);
+  const targetPctRef = useRef(50);
 
   const applyPosition = useCallback((pct: number) => {
+    currentPctRef.current = pct;
     const p = pct.toFixed(2);
     if (afterRef.current) afterRef.current.style.clipPath = `inset(0 0 0 ${p}%)`;
     if (dividerRef.current) dividerRef.current.style.left = `${p}%`;
     if (handleRef.current) handleRef.current.style.left = `${p}%`;
   }, []);
 
-  // Single lightweight 1.1s entrance sweep (zero continuous background GPU clipPath thrashing)
+  // Single lightweight 1.35s entrance sweep (zero continuous background GPU clipPath thrashing)
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -34,12 +37,14 @@ export const MonoSplitTransformation: React.FC = () => {
         if (document.documentElement.dataset.motion === 'paused') return;
         introPlayed.current = true;
         const start = performance.now();
-        const duration = 1100;
+        const duration = 1350;
 
         const sweep = (now: number) => {
           const t = Math.min(1, (now - start) / duration);
-          // Smooth sine wave 50% -> 28% -> 68% -> settles cleanly at 50%
-          const pct = t < 1 ? 50 - 22 * Math.sin(t * Math.PI * 2) : 50;
+          // Smooth eased sine wave 50% -> 22% -> 76% -> settles cleanly at 50%
+          const eased = 1 - Math.pow(1 - t, 3);
+          const pct = t < 1 ? 50 - 26 * Math.sin(eased * Math.PI * 2) * (1 - t * 0.25) : 50;
+          targetPctRef.current = pct;
           applyPosition(pct);
           if (t < 1 && !isDragging.current) {
             raf = requestAnimationFrame(sweep);
@@ -59,17 +64,26 @@ export const MonoSplitTransformation: React.FC = () => {
     };
   }, [applyPosition]);
 
+  const animateTowardTarget = useCallback(() => {
+    moveRafRef.current = null;
+    const diff = targetPctRef.current - currentPctRef.current;
+    if (Math.abs(diff) < 0.08) {
+      applyPosition(targetPctRef.current);
+      return;
+    }
+    applyPosition(currentPctRef.current + diff * 0.24);
+    moveRafRef.current = requestAnimationFrame(animateTowardTarget);
+  }, [applyPosition]);
+
   const scheduleMove = (clientX: number) => {
-    if (moveRafRef.current !== null) return;
-    moveRafRef.current = requestAnimationFrame(() => {
-      moveRafRef.current = null;
-      const rect = rectRef.current ?? containerRef.current?.getBoundingClientRect();
-      if (!rect || rect.width === 0) return;
-      rectRef.current = rect;
-      const x = clientX - rect.left;
-      const pct = Math.max(8, Math.min(92, (x / rect.width) * 100));
-      applyPosition(pct);
-    });
+    const rect = rectRef.current ?? containerRef.current?.getBoundingClientRect();
+    if (!rect || rect.width === 0) return;
+    rectRef.current = rect;
+    const x = clientX - rect.left;
+    targetPctRef.current = Math.max(8, Math.min(92, (x / rect.width) * 100));
+    if (moveRafRef.current === null) {
+      moveRafRef.current = requestAnimationFrame(animateTowardTarget);
+    }
   };
 
   const handlePointerEnter = () => {
@@ -180,14 +194,14 @@ export const MonoSplitTransformation: React.FC = () => {
         <div
           ref={dividerRef}
           style={{ left: '50%' }}
-          className="absolute inset-y-0 -translate-x-1/2 w-[2.5px] bg-gradient-to-b from-[#312185] via-[#CCC7F2] to-[#7265C2] shadow-[0_0_16px_#CCC7F2] z-20 pointer-events-none"
+          className="absolute inset-y-0 -translate-x-1/2 w-[2.5px] bg-gradient-to-b from-[#312185] via-[#FFFFFF] to-[#7265C2] shadow-[0_0_24px_rgba(204,199,242,0.85)] z-20 pointer-events-none"
         />
 
         {/* Compact Optical Handle */}
         <div
           ref={handleRef}
           style={{ left: '50%' }}
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-[#160952]/92 border-2 border-[#CCC7F2] flex items-center justify-center text-white shadow-[0_0_18px_rgba(204,199,242,0.5)] z-30 pointer-events-none"
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-[#160952]/95 border-2 border-[#CCC7F2] flex items-center justify-center text-white shadow-[0_0_24px_rgba(204,199,242,0.75)] transition-transform duration-200 hover:scale-110 z-30 pointer-events-none"
         >
           <ArrowLeftRight className="w-3.5 h-3.5" />
         </div>

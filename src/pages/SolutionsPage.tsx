@@ -260,7 +260,7 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onOpenBooking }) =
                   key={v.code}
                   maxTilt={4}
                   onClick={onOpenBooking}
-                  className="h-full p-4 rounded-xl glass-card text-left flex flex-col justify-between gap-3 cursor-pointer"
+                  className="h-full p-4 rounded-xl glass-card text-left flex flex-col justify-start gap-3 cursor-pointer"
                 >
                   <div className="flex items-center justify-between text-[11px] font-semibold pb-2 border-b border-[#7265C2]/25 text-[#CCC7F2]">
                     <span>{v.code}</span>
