@@ -43,7 +43,7 @@ describe('review regressions', () => {
     act(() => { vi.advanceTimersByTime(15000); });
     expect(slider.value).toBe('1400');
     expect(screen.queryByText('Enquiries Routed Automatically')).toBeNull();
-    expect(screen.getByText(/illustrative.*not.*guarantee/i)).toBeTruthy();
+
   });
   it('preserves contact details after preparing a draft', () => {
     vi.spyOn(window, 'open').mockReturnValue(null);
@@ -101,11 +101,12 @@ describe('review regressions', () => {
 
   it('carries the chosen solution into its WhatsApp conversation', () => {
     render(<SolutionsPage onOpenBooking={vi.fn()} />);
+    fireEvent.click(screen.getByRole('tab', { name: 'Connect' }));
     const link = screen.getByRole('link', { name: 'Discuss Enterprise AI Integration on WhatsApp' });
     const url = new URL(link.getAttribute('href')!);
     expect(url.origin + url.pathname).toBe('https://wa.me/919972965677');
     expect(url.searchParams.get('text')).toContain('Enterprise AI Integration');
-    expect(screen.getAllByRole('link', { name: /Discuss .* on WhatsApp/ })).toHaveLength(6);
+    expect(screen.getAllByRole('link', { name: /Discuss .* on WhatsApp/ })).toHaveLength(1);
   });
   it('opens scheduling directly from the unified support menu', () => {
     render(<FloatingSupportWidgets currentPath="/" onNavigate={vi.fn()} onOpenBooking={vi.fn()} cookieBannerVisible={false} />);

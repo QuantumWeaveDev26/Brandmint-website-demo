@@ -31,7 +31,7 @@ export const MonoRoiCalculator: React.FC<MonoRoiCalculatorProps> = ({ onOpenBook
         <div className="scan-volume-heading"><label htmlFor="enquiry-volume">Monthly customer enquiries</label></div>
         <div className="scan-volume"><output htmlFor="enquiry-volume">{inquiries.toLocaleString()}</output><span>enquiries / month</span></div>
         <input id="enquiry-volume" aria-label="Monthly customer enquiries" type="range" min="100" max="5000" step="100"
-          value={inquiries} aria-describedby="scan-guidance" onChange={event => setInquiries(Number(event.target.value))}
+          value={inquiries} onChange={event => setInquiries(Number(event.target.value))}
           style={{ '--scan-fill': `${fill}%` } as React.CSSProperties} />
         <div className="scan-range-labels" aria-hidden="true"><span>100</span><span>5,000</span></div>
         <div className="scan-presets" aria-label="Enquiry volume presets">{PRESETS.map(preset => <button type="button" key={preset.label}
@@ -46,6 +46,5 @@ export const MonoRoiCalculator: React.FC<MonoRoiCalculatorProps> = ({ onOpenBook
         <div className="scan-result-footer"><span>{blueprint.scope}</span><button type="button" onClick={onOpenBooking}>Discuss this blueprint <ArrowUpRight size={17} aria-hidden="true" /></button></div>
       </div>
     </div>
-    <p id="scan-guidance" className="scan-disclaimer">Illustrative guidance, not a quote or a guarantee. The final architecture depends on your actual workflow and integration requirements.</p>
   </section>;
 };

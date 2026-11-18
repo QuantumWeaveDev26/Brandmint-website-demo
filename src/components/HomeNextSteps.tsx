@@ -19,7 +19,7 @@ export function HomeNextSteps() {
       <li><span>03 / Scale</span><h3>Build on what works.</h3><p>Review the outcome with your team and decide what to connect next.</p></li>
     </ol>
     <div className="home-faq">
-      <h3>A few things<br /><span className="font-editorial">you might ask.</span></h3>
+      <h3>Big ideas.<br /><span className="font-editorial">Clear answers.</span></h3>
       <div>{QUESTIONS.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={18} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div>
     </div>
     <div className="home-final-call">

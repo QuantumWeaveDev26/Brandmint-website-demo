@@ -270,12 +270,14 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
           <dl className="solution-outcomes">
             {service.specs.map(spec => <div key={spec.label}><dt>{spec.label}</dt><dd>{spec.val}</dd></div>)}
           </dl>
+          <div className="solution-actions">
           <button type="button" className="home-primary" onClick={() => onOpenBooking?.(service.fullTitle)}>
             Discuss this solution <ArrowUpRight size={17} aria-hidden="true" />
           </button>
           <a className="home-text-link" href={service.ctaLink} target="_blank" rel="noopener noreferrer">
             Ask us on WhatsApp <ArrowUpRight size={15} aria-hidden="true" />
           </a>
+          </div>
         </div>
         <div className="solution-media">
           {SERVICES.map((item, index) => <div key={item.id} className="solution-media-layer" data-active={index === activeIdx} aria-hidden="true">

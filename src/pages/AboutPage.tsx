@@ -61,10 +61,7 @@ const AUDIENCES = [
   { name: "Founders & Builders", focus: "AI Campus literacy & venture IP" },
 ];
 
-export const AboutPage: React.FC<AboutPageProps> = ({
-  onOpenBooking,
-  onNavigate,
-}) => {
+export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking }) => {
   return (
     <div className="w-full pt-20 pb-8">
       {/* 1. Hero Banner */}
@@ -155,30 +152,43 @@ export const AboutPage: React.FC<AboutPageProps> = ({
           </div>
         </section>
         <section
-          className="inner-section open-split"
+          className="inner-section division-showcase"
           aria-labelledby="divisions-title"
         >
-          <div className="inner-section-heading">
+          <div className="visual-section-heading">
             <h2 id="divisions-title">
-              Four disciplines.
-              <br />
-              <span className="font-editorial">One connected team.</span>
+              Ideas into{" "}
+              <span className="font-editorial">working systems.</span>
             </h2>
-            <button
-              className="inner-text-action"
-              onClick={() => onNavigate("/solutions")}
-            >
-              Explore AI solutions <ArrowUpRight size={18} aria-hidden="true" />
-            </button>
+            <p>Explore what we build.</p>
           </div>
-          <dl className="division-list">
-            {DIVISIONS.map((div) => (
-              <div key={div.num}>
-                <dt>{div.title}</dt>
-                <dd>{div.desc}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="division-cinema">
+            <SmartVideo
+              src="/videos/rel-systems-team.mp4"
+              className="w-full h-full object-cover"
+            />
+            <div className="division-destinations">
+              {DIVISIONS.map((division, index) => {
+                const Icon = division.icon;
+                return (
+                  <a
+                    href={
+                      index === 2
+                        ? "/ventures"
+                        : index === 3
+                          ? "/ventures#portfolio-title"
+                          : "/solutions"
+                    }
+                    key={division.num}
+                  >
+                    <Icon size={24} aria-hidden="true" />
+                    <span>{division.title}</span>
+                    <ArrowUpRight size={18} aria-hidden="true" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </section>
         <section
           className="inner-section about-purpose"

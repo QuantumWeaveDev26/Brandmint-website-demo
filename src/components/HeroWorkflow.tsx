@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, RotateCcw } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useMotionSettings } from './MotionSettings';
 import { HERO_EXAMPLES } from '../data/heroExamples';
 import { HeroTransformation } from './HeroTransformation';
@@ -9,8 +9,6 @@ export function HeroWorkflow() {
   const ref = useRef<HTMLDivElement | null>(null);
   const [step, setStep] = useState(0);
   const [exampleIndex, setExampleIndex] = useState(0);
-  const [manualPhase, setManualPhase] = useState<number | null>(null);
-  const [replayCount, setReplayCount] = useState(0);
   const exampleTabs = useRef<(HTMLButtonElement | null)[]>([]);
   const example = HERO_EXAMPLES[exampleIndex];
   const [near, setNear] = useState(false);
@@ -25,15 +23,15 @@ export function HeroWorkflow() {
     return () => { observer.disconnect(); document.removeEventListener('visibilitychange', onVisibility); };
   }, []);
   useEffect(() => {
-    if ((paused && !replayCount) || !near || !pageVisible || manualPhase !== null) return;
+    if (paused || !near || !pageVisible) return;
     const timer = window.setInterval(() => setStep(previous => (previous + 1) % 4), 2400);
     return () => window.clearInterval(timer);
-  }, [paused, near, pageVisible, exampleIndex, manualPhase, replayCount]);
+  }, [paused, near, pageVisible, exampleIndex]);
 
-  const phase = manualPhase ?? (paused && !replayCount ? 3 : step);
+  const phase = paused ? 3 : step;
   const frame = example.frames[phase];
   const Icon = frame.icon;
-  const selectExample = (index: number) => { setExampleIndex(index); setStep(0); setManualPhase(null); setReplayCount(0); };
+  const selectExample = (index: number) => { setExampleIndex(index); setStep(0); };
   return <div ref={ref} className="hero-workflow hero-workflow-transform" data-phase={phase} data-example={example.id} aria-label="Explore AI solutions and learning opportunities">
     <div className="workflow-topline"><span className="workflow-dot" /> Build with AI. Grow your skills. <span className="workflow-example-label">Examples</span></div>
     <div className="hero-example-tabs" role="tablist" aria-label="Explore our capabilities">
@@ -47,12 +45,7 @@ export function HeroWorkflow() {
         }}>{item.label}</button>)}
     </div>
     <div id="hero-example-panel" role="tabpanel" aria-labelledby={`example-${example.id}`}>
-    <HeroTransformation phase={phase} example={example} animating={near && pageVisible && !paused && manualPhase === null} />
-    <div className="transform-playback" aria-label="Transformation controls">
-      <button type="button" aria-label="Show manual workflow" aria-pressed={phase === 0} onClick={() => setManualPhase(0)}>Before</button>
-      <button type="button" aria-label="Show connected workflow" aria-pressed={phase === 3} onClick={() => setManualPhase(3)}>After</button>
-      <button type="button" aria-label="Replay transformation" onClick={() => { setStep(0); setManualPhase(null); setReplayCount(count => count + 1); }}><RotateCcw size={15} aria-hidden="true" />Replay</button>
-    </div>
+    <HeroTransformation phase={phase} example={example} animating={near && pageVisible && !paused} />
     <div className="workflow-message" key={`${example.id}-${phase}`}>
       <Icon size={21} aria-hidden="true" />
       <div><span className="workflow-small-label">{frame.label}</span><p>{frame.message}</p></div>

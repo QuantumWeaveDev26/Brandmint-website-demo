@@ -15,25 +15,24 @@ try {
       assert.equal(await page.$$eval('.inner-content .glass-card,.inner-content .glass-card-active,.inner-content [role="button"]', nodes => nodes.length), 0);
       if (route === '/about') {
         assert.equal(await page.$$eval('.leadership-profiles article', nodes => nodes.length), 2);
-        await page.locator('.open-split button').click();
+        await page.locator('.division-destinations a:first-child').click();
         await page.waitForFunction(() => location.pathname === '/solutions');
       } else if (route === '/solutions') {
-        const links = await page.$$eval('.service-row a', nodes => nodes.map(node => node.href));
-        assert.equal(links.length, 6);
+        await page.goto('http://127.0.0.1:5173/solutions#ai-integration', { waitUntil: 'networkidle2' });
+        assert.equal(await page.$eval('#service-tab-ai-integration', node => node.getAttribute('aria-selected')), 'true');
+        await page.locator('#service-tab-ai-integration').click();
+        const links = await page.$$eval('.service-explorer-copy a', nodes => nodes.map(node => node.href));
+        assert.equal(links.length, 1);
         assert.ok(links.every(href => new URL(href).hostname === 'wa.me' && new URL(href).searchParams.get('text')?.includes('organisation')));
         await page.locator('.infrastructure-section button').click();
       } else if (route === '/ventures') {
         assert.equal(await page.$$eval('.portfolio-list button', nodes => nodes.length), 7);
         await page.locator('.portfolio-list button:first-child').click();
       } else if (route === '/blog') {
-        assert.equal(await page.$$eval('.guide-row', nodes => nodes.length), 3);
+        assert.equal(await page.$$eval('.visual-guide-card', nodes => nodes.length), 3);
         assert.equal(await page.$eval('.featured-guide h2 a', node => new URL(node.href).pathname), '/small-business-automation-ideas/');
       } else if (route === '/academy') {
-        assert.equal(await page.$$eval('.programme-table tbody tr', nodes => nodes.length), 5);
-        const session = await page.createCDPSession();
-        const { nodes } = await session.send('Accessibility.getFullAXTree');
-        assert.ok(nodes.some(node => node.role?.value === 'table'), 'Program comparison remains a table in the accessibility tree');
-        await session.detach();
+        assert.equal(await page.$$eval('.programme-card', nodes => nodes.length), 5);
         await page.locator('.academy-team button').click();
       }
       if (['/solutions', '/ventures', '/academy'].includes(route)) {
@@ -44,5 +43,5 @@ try {
     }
   }
   assert.deepEqual(errors, []);
-  console.log('Five redesigned bodies passed desktop/mobile content, links, navigation, booking dialog and table accessibility checks.');
+  console.log('Five redesigned bodies passed desktop/mobile content, links, navigation, booking dialog and visual programme checks.');
 } finally { await browser.close(); }

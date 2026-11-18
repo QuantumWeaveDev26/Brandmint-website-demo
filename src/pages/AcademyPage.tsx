@@ -57,6 +57,21 @@ const PROGRAMS = [
   },
 ];
 
+const PROGRAMME_MEDIA = [
+  "/videos/clean-marketing-laptop.mp4",
+  "/videos/04-fullstack-code.mp4",
+  "/videos/rel-systems-team.mp4",
+  "/videos/02-ai-agent-sphere.mp4",
+  "/videos/05-ai-cinema-earth.mp4",
+];
+const PROGRAMME_COPY = [
+  "Campaigns. Copy. Automation.",
+  "Build connected AI apps.",
+  "From learning to industry readiness.",
+  "Practical AI for everyday creators.",
+  "Tell your story with AI film.",
+];
+
 export const AcademyPage: React.FC<AcademyPageProps> = ({ onOpenBooking }) => {
   return (
     <div className="w-full pt-20 pb-8">
@@ -94,56 +109,41 @@ export const AcademyPage: React.FC<AcademyPageProps> = ({ onOpenBooking }) => {
           className="inner-section programme-directory"
           aria-labelledby="programmes-title"
         >
-          <div className="inner-section-heading">
+          <div className="visual-section-heading">
             <h2 id="programmes-title">
-              Choose your
+              Your next skill.
               <br />
-              <span className="font-editorial">learning focus.</span>
+              <span className="font-editorial">Your next chapter.</span>
             </h2>
+            <p>Pick a track. Build something useful.</p>
           </div>
-          <table className="programme-table" role="table">
-            <caption className="sr-only">
-              Compare BrandMint Academy programs by track and learning focus.
-            </caption>
-            <thead role="rowgroup">
-              <tr role="row">
-                <th scope="col" role="columnheader">
-                  Program &amp; track
-                </th>
-                <th scope="col" role="columnheader">
-                  Learning focus
-                </th>
-                <th scope="col" role="columnheader">
-                  <span className="sr-only">Program website</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody role="rowgroup">
-              {PROGRAMS.map((prog) => (
-                <tr key={prog.code} role="row">
-                  <th scope="row" role="rowheader">
-                    <h3>{prog.title}</h3>
-                    <span>{prog.badge}</span>
-                  </th>
-                  <td role="cell">
-                    <p>{prog.note}</p>
-                  </td>
-                  <td role="cell">
-                    <a
-                      className="inner-text-action"
-                      href={prog.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Explore ${prog.title}`}
-                    >
-                      Explore program{" "}
-                      <ArrowUpRight size={18} aria-hidden="true" />
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="programme-gallery">
+            {PROGRAMS.map((prog, index) => (
+              <a
+                key={prog.code}
+                className="programme-card"
+                href={prog.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Explore ${prog.title}`}
+              >
+                <div className="programme-art">
+                  <SmartVideo
+                    src={PROGRAMME_MEDIA[index]}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="programme-card-copy">
+                  <h3>{prog.title}</h3>
+                  <p>{PROGRAMME_COPY[index]}</p>
+                  <span>
+                    {prog.badge}
+                    <ArrowUpRight size={20} aria-hidden="true" />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </section>
         <section
           className="inner-section academy-team"

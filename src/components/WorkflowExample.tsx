@@ -51,7 +51,6 @@ export function WorkflowExample({ onOpenBooking }: { onOpenBooking: () => void }
               onClick={() => { setActiveStep(idx); setManual(true); }}>
               <span className="workflow-rail-marker"><Icon size={20} aria-hidden="true" /></span>
               <span className="workflow-rail-copy"><strong>{node.label}</strong><span>{node.sub}</span></span>
-              <ArrowRight size={18} className="workflow-rail-arrow" aria-hidden="true" />
               {activeStep === idx && <span key={activeStep} className="workflow-node-progress" aria-hidden="true" />}
             </button>
           </li>; })}

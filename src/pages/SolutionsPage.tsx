@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowUpRight,
   Sparkles,
@@ -132,9 +132,47 @@ const VISIBILITY_PILLARS = [
   },
 ];
 
+const SERVICE_MEDIA = [
+  "/videos/pure-sol01-personalisation.mp4",
+  "/videos/rel-crm-sync.mp4",
+  "/videos/pure-sol03-workforce.mp4",
+  "/videos/home-sol04-workflows.mp4",
+  "/videos/rel-project-roadmap.mp4",
+  "/videos/04-fullstack-code.mp4",
+];
+
 export const SolutionsPage: React.FC<SolutionsPageProps> = ({
   onOpenBooking,
 }) => {
+  const readServiceHash = () => {
+    try {
+      return SOLUTION_AREAS.findIndex(
+        (service) =>
+          service.id === decodeURIComponent(window.location.hash.slice(1)),
+      );
+    } catch {
+      return -1;
+    }
+  };
+  const [activeService, setActiveService] = useState(() =>
+    Math.max(0, readServiceHash()),
+  );
+  useEffect(() => {
+    const syncHash = () => {
+      const index = readServiceHash();
+      if (index < 0) return;
+      setActiveService(index);
+      requestAnimationFrame(() =>
+        document
+          .getElementById("services-title")
+          ?.scrollIntoView({ block: "start" }),
+      );
+    };
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, []);
+  const selectedService = SOLUTION_AREAS[activeService];
   return (
     <div className="w-full pt-20 pb-8">
       {/* 1. Hero Stage */}
@@ -184,47 +222,107 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({
       </section>
       <div className="inner-content solutions-content">
         <section
-          className="inner-section service-directory"
+          className="inner-section visual-services"
           aria-labelledby="services-title"
         >
-          <div className="inner-section-heading">
+          <div className="visual-section-heading">
             <h2 id="services-title">
-              Explore the
+              Less friction.
               <br />
-              <span className="font-editorial">solution suite.</span>
+              <span className="font-editorial">More possibility.</span>
             </h2>
+            <p>Find the right AI for your next move.</p>
           </div>
-          <div>
-            {SOLUTION_AREAS.map((sol) => (
-              <article className="service-row" key={sol.id} id={sol.id}>
-                <div>
-                  <h3>{sol.title}</h3>
-                  <p className="service-outcome font-editorial">
-                    {sol.headline}
-                  </p>
-                </div>
-                <div>
-                  <ul>
-                    {sol.specs.map((spec) => (
-                      <li key={spec}>
-                        <CheckCircle2 size={16} aria-hidden="true" />
-                        {spec}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    className="inner-text-action"
-                    href={`https://wa.me/919972965677?text=${encodeURIComponent(`Hi BrandMint AI Bengaluru! We would like to explore ${sol.title} for our organisation.`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Discuss ${sol.title} on WhatsApp`}
-                  >
-                    Discuss this solution{" "}
-                    <ArrowUpRight size={18} aria-hidden="true" />
-                  </a>
-                </div>
-              </article>
+          {SOLUTION_AREAS.map((sol) => (
+            <span
+              className="service-route-anchor"
+              key={sol.id}
+              id={sol.id}
+              aria-hidden="true"
+            />
+          ))}
+          <div
+            className="service-switcher"
+            role="tablist"
+            aria-label="Explore AI solutions"
+          >
+            {SOLUTION_AREAS.map((sol, index) => (
+              <button
+                type="button"
+                key={sol.id}
+                id={`service-tab-${sol.id}`}
+                role="tab"
+                aria-selected={activeService === index}
+                aria-controls="service-explorer-panel"
+                tabIndex={activeService === index ? 0 : -1}
+                onClick={() => setActiveService(index)}
+                onKeyDown={(event) => {
+                  const next =
+                    event.key === "ArrowRight"
+                      ? (index + 1) % 6
+                      : event.key === "ArrowLeft"
+                        ? (index + 5) % 6
+                        : event.key === "Home"
+                          ? 0
+                          : event.key === "End"
+                            ? 5
+                            : null;
+                  if (next === null) return;
+                  event.preventDefault();
+                  setActiveService(next);
+                  document
+                    .getElementById(`service-tab-${SOLUTION_AREAS[next].id}`)
+                    ?.focus();
+                }}
+              >
+                {sol.badge}
+              </button>
             ))}
+          </div>
+          <div
+            id="service-explorer-panel"
+            className="service-explorer"
+            role="tabpanel"
+            tabIndex={0}
+            aria-labelledby={`service-tab-${selectedService.id}`}
+          >
+            <div className="service-explorer-media">
+              {SERVICE_MEDIA.map((src, index) => (
+                <div
+                  className="service-visual-layer"
+                  key={src}
+                  data-active={activeService === index}
+                  aria-hidden="true"
+                >
+                  <SmartVideo
+                    src={src}
+                    paused={activeService !== index}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="service-explorer-copy" key={selectedService.id}>
+              <h3>{selectedService.title}</h3>
+              <p className="font-editorial">{selectedService.headline}</p>
+              <ul>
+                {selectedService.specs.map((spec) => (
+                  <li key={spec}>
+                    <CheckCircle2 size={16} aria-hidden="true" />
+                    {spec}
+                  </li>
+                ))}
+              </ul>
+              <a
+                className="home-primary"
+                href={`https://wa.me/919972965677?text=${encodeURIComponent(`Hi BrandMint AI Bengaluru! We would like to explore ${selectedService.title} for our organisation.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Discuss ${selectedService.title} on WhatsApp`}
+              >
+                Let's build this <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </section>
         <section

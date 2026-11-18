@@ -147,43 +147,45 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({
       </section>
       <div className="inner-content ventures-content">
         <section
-          className="inner-section venture-engines"
+          className="inner-section venture-visual-story"
           aria-labelledby="engines-title"
         >
-          <div className="inner-section-heading">
+          <div className="visual-section-heading">
             <h2 id="engines-title">
-              Client systems.
+              Built to work.
               <br />
-              <span className="font-editorial">Compounding ventures.</span>
+              <span className="font-editorial">Built to grow.</span>
             </h2>
+            <p>Client systems today. Platforms for what comes next.</p>
           </div>
-          <div className="venture-engine-copy">
-            <article>
-              <h3>Applied enterprise deployments</h3>
-              <p>
-                Real-world operational deployments that solve live business
-                friction and sharpen our architecture.
-              </p>
-              <ul>
-                <li>Live revenue flows</li>
-                <li>Domain context</li>
-                <li>Rapid validation</li>
-                <li>Governance proof</li>
-              </ul>
-            </article>
-            <article>
-              <h3>Platforms &amp; venture IP</h3>
-              <p>
-                Multi-sided platforms, institutional learning networks, and
-                compounding IP.
-              </p>
-              <ul>
-                <li>Quantum Weave™</li>
-                <li>JobMatrix</li>
-                <li>AI Campus</li>
-                <li>Proprietary IP</li>
-              </ul>
-            </article>
+          <div className="venture-visual-pair">
+            <a href="/solutions" className="venture-film-link">
+              <SmartVideo
+                src="/videos/rel-automation-ops.mp4"
+                className="w-full h-full object-cover"
+              />
+              <div>
+                <h3>Enterprise deployments</h3>
+                <span>AI for real operational work</span>
+                <ArrowUpRight size={24} aria-hidden="true" />
+              </div>
+            </a>
+            <a
+              href="https://quantumweaveai.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="venture-film-link"
+            >
+              <SmartVideo
+                src="/videos/v11-tech-47051.mp4"
+                className="w-full h-full object-cover"
+              />
+              <div>
+                <h3>Platforms &amp; venture IP</h3>
+                <span>Quantum Weave™ &amp; our ecosystem</span>
+                <ArrowUpRight size={24} aria-hidden="true" />
+              </div>
+            </a>
           </div>
         </section>
         <section

@@ -44,6 +44,12 @@ const ARTICLES = [
   },
 ];
 
+const GUIDE_MEDIA = [
+  "/videos/home-whatsapp-crm.mp4",
+  "/videos/clean-audit-whiteboard.mp4",
+  "/videos/rel-crm-sync.mp4",
+];
+
 export const BlogPage: React.FC = () => {
   return (
     <div className="w-full pt-20 pb-8">
@@ -110,31 +116,34 @@ export const BlogPage: React.FC = () => {
           </div>
         </section>
         <section
-          className="inner-section guide-library"
+          className="inner-section guide-library visual-guide-library"
           aria-labelledby="guides-title"
         >
-          <h2 id="guides-title">
-            More from
-            <br />
-            <span className="font-editorial">the field.</span>
-          </h2>
-          <div>
-            {ARTICLES.slice(1).map((art) => (
-              <article className="guide-row" key={art.href}>
-                <p className="inner-meta">{art.tag}</p>
-                <div>
-                  <h3>
-                    <a
-                      href={art.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {art.title}
+          <div className="visual-section-heading">
+            <h2 id="guides-title">
+              Fresh ideas.
+              <br />
+              <span className="font-editorial">Practical moves.</span>
+            </h2>
+          </div>
+          <div className="guide-gallery">
+            {ARTICLES.slice(1).map((art, index) => (
+              <article className="visual-guide-card" key={art.href}>
+                <a href={art.href} target="_blank" rel="noopener noreferrer">
+                  <div className="guide-art">
+                    <SmartVideo
+                      src={GUIDE_MEDIA[index]}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="guide-card-copy">
+                    <h3>{art.title}</h3>
+                    <span>
+                      {art.tag}
                       <ArrowUpRight size={20} aria-hidden="true" />
-                    </a>
-                  </h3>
-                  <p>{art.summary}</p>
-                </div>
+                    </span>
+                  </div>
+                </a>
               </article>
             ))}
           </div>
