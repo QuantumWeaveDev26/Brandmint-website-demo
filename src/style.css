@@ -673,3 +673,9 @@ body:has(#mobile-navigation:not([inert])) .support-dock { visibility: hidden; po
 @media (prefers-reduced-motion: reduce) {
   .workflow-story *, .growth-scan .scan-result-copy { animation: none !important; transition: none !important; }
 }
+
+@media (max-width: 400px) {
+  .simulator-phone-header { flex-wrap: wrap; gap: 8px; }
+  .simulator-phone-header > div { flex-basis: 100%; }
+  .simulator-phone-header > span { margin-left: 42px; }
+}

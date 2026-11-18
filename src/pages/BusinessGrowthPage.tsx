@@ -162,6 +162,7 @@ export const BusinessGrowthPage: React.FC<BusinessGrowthPageProps> = ({ onOpenBo
                   <button
                     type="button"
                     key={leak.id}
+                    aria-pressed={selectedLeak === i}
                     onClick={() => setSelectedLeak(i)}
                     className={`w-full text-left px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-all flex items-center justify-between gap-2 cursor-pointer ${
                       selectedLeak === i

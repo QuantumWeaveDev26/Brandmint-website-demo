@@ -153,6 +153,7 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({ onOpenBooking }) => 
               <button
                 type="button"
                 onClick={() => setActiveDivision('now')}
+                aria-pressed={activeDivision === 'now'}
                 className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                   activeDivision === 'now' ? 'btn-aurora text-white' : 'text-[#CCC7F2] hover:text-white'
                 }`}
@@ -162,6 +163,7 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({ onOpenBooking }) => 
               <button
                 type="button"
                 onClick={() => setActiveDivision('scale')}
+                aria-pressed={activeDivision === 'scale'}
                 className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                   activeDivision === 'scale' ? 'btn-aurora text-white' : 'text-[#CCC7F2] hover:text-white'
                 }`}

@@ -103,7 +103,7 @@ export const ContactPage: React.FC = () => {
                   <Mail className="w-4 h-4 shrink-0 text-[#CCC7F2]" />
                   <div className="min-w-0">
                     <span className="text-[10px] text-[#CCC7F2]/70 font-medium block">Email</span>
-                    <span className="text-xs font-semibold truncate block">connect@brandmintai.io</span>
+                    <span className="text-xs font-semibold break-words whitespace-normal block">connect@brandmintai.io</span>
                   </div>
                 </a>
 
@@ -128,7 +128,7 @@ export const ContactPage: React.FC = () => {
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <FileText className="w-4 h-4 shrink-0 text-[#CCC7F2]" />
-                    <span className="text-xs font-semibold truncate">Solutions Brief (PDF)</span>
+                    <span className="text-xs font-semibold break-words whitespace-normal">Solutions Brief (PDF)</span>
                   </div>
                   <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-[#CCC7F2]" />
                 </a>
@@ -151,8 +151,8 @@ export const ContactPage: React.FC = () => {
                     className="p-3 rounded-xl glass-card flex items-center justify-between hover:border-[#CCC7F2] transition-all"
                   >
                     <div className="min-w-0">
-                      <span className="font-display text-xs font-bold text-white block truncate">{c.name}</span>
-                      <span className="text-[11px] text-[#CCC7F2]/70 truncate block">{c.handle}</span>
+                      <span className="font-display text-xs font-bold text-white block break-words whitespace-normal">{c.name}</span>
+                      <span className="text-[11px] text-[#CCC7F2]/70 break-words whitespace-normal block">{c.handle}</span>
                     </div>
                     <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-[#CCC7F2]" />
                   </a>

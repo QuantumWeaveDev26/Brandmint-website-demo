@@ -239,7 +239,7 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
                           : 'bg-[#0E0433]/55 border-[#7265C2]/15 text-[#CCC7F2]/40'
                       }`}
                     >
-                      <span className="truncate">{item.log}</span>
+                      <span className="min-w-0 break-words">{item.log}</span>
                       <span
                         className={`w-2 h-2 rounded-full shrink-0 ${
                           current
@@ -300,19 +300,19 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
               </div>
 
               {/* WhatsApp Header */}
-              <div className="bg-gradient-to-r from-[#160952] via-[#312185] to-[#160952] border-b border-[#7265C2]/35 px-3.5 py-2.5 flex items-center justify-between text-white">
+              <div className="simulator-phone-header bg-gradient-to-r from-[#160952] via-[#312185] to-[#160952] border-b border-[#7265C2]/35 px-3.5 py-2.5 flex items-center justify-between text-white">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8 h-8 rounded-full bg-white p-0.5 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
                     <img src={brandmintLogo} alt="BrandMint AI" className="w-full h-full object-cover" />
                   </div>
                   <div className="text-left min-w-0">
-                    <div className="flex items-center gap-1.5 font-display font-bold text-xs text-white truncate">
-                      <span className="truncate">BrandMint WhatsApp AI</span>
+                    <div className="flex items-center gap-1.5 font-display font-bold text-xs text-white">
+                      <span className="min-w-0 break-words">BrandMint WhatsApp AI</span>
                       <span className="w-2 h-2 rounded-full bg-[#25D366] shrink-0" />
                     </div>
-                    <span className="text-[10px] text-[#CCC7F2] flex items-center gap-1 truncate">
+                    <span className="text-[10px] text-[#CCC7F2] flex items-center gap-1">
                       <CheckCheck className="w-3 h-3 text-[#25D366] shrink-0" />
-                      <span className="truncate">Verified Business • Online</span>
+                      <span className="min-w-0 break-words">Verified Business • Online</span>
                     </span>
                   </div>
                 </div>
