@@ -8,6 +8,30 @@ import { WorkflowExample } from '../src/components/WorkflowExample';
 import { MonoNavbar } from '../src/components/MonoNavbar';
 
 describe('homepage visitor journeys', () => {
+  it('gives every replay a full opening scene', () => {
+    vi.useFakeTimers();
+    vi.spyOn(globalThis, 'IntersectionObserver').mockImplementation(function(callback: IntersectionObserverCallback) {
+      return { observe() { callback([{ isIntersecting: true }] as IntersectionObserverEntry[], {} as IntersectionObserver); }, disconnect() {} } as unknown as IntersectionObserver;
+    } as unknown as typeof IntersectionObserver);
+    const { container } = render(<HeroWorkflow />);
+    const replay = screen.getByRole('button', { name: 'Replay transformation' });
+    fireEvent.click(replay);
+    act(() => { vi.advanceTimersByTime(2200); });
+    fireEvent.click(replay);
+    act(() => { vi.advanceTimersByTime(400); });
+    expect(container.querySelector('.hero-workflow')?.getAttribute('data-phase')).toBe('0');
+    act(() => { vi.advanceTimersByTime(2000); });
+    expect(container.querySelector('.hero-workflow')?.getAttribute('data-phase')).toBe('1');
+  });
+  it('lets visitors inspect the before and after transformation directly', () => {
+    const { container } = render(<HeroWorkflow />);
+    fireEvent.click(screen.getByRole('button', { name: 'Show connected workflow' }));
+    expect(container.querySelector('.hero-workflow')?.getAttribute('data-phase')).toBe('3');
+    fireEvent.click(screen.getByRole('button', { name: 'Show manual workflow' }));
+    expect(container.querySelector('.hero-workflow')?.getAttribute('data-phase')).toBe('0');
+    fireEvent.click(screen.getByRole('button', { name: 'Replay transformation' }));
+    expect(container.querySelector('.hero-workflow')?.getAttribute('data-phase')).toBe('0');
+  });
   it('moves focus into mobile navigation and returns it to the menu button on Escape', () => {
     render(<MonoNavbar currentPath="/" onNavigate={vi.fn()} onOpenBooking={vi.fn()} />);
     const toggle = screen.getByRole('button', { name: 'Toggle Menu' });

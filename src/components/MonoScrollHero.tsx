@@ -17,22 +17,22 @@ const PILLARS: { title: string; description: string; route: RoutePath }[] = [
 ];
 
 export const MonoScrollHero: React.FC<MonoScrollHeroProps> = ({ onNavigate }) => (
-  <section id="top" className="home-hero">
+  <section id="top" className="home-hero home-hero-expressive">
     <div className="hero-backdrop" aria-hidden="true">
       <SmartVideo src="/videos/bengaluru-tech-park.mp4" priority className="h-full w-full object-cover" />
     </div>
     <div className="hero-layout">
       <div className="hero-copy">
-        <h1>Less busywork.<br /><span className="font-editorial">More business.</span></h1>
-        <p className="hero-description">AI agents, voice assistants, WhatsApp automation, and connected CRM workflows. Built around your business, so your people can focus on the work that matters.</p>
-        <p className="hero-learning-note">Want to build your own skills? Explore practical AI learning through <a href="/academy">BrandMint Academy <ArrowUpRight size={13} aria-hidden="true" /></a>.</p>
+        <h1><span className="hero-headline-first">Less busywork.</span><span className="font-editorial hero-headline-second">More business.</span></h1>
+        <p className="hero-description">AI agents, voice assistants, and connected WhatsApp + CRM workflows. Free your team to focus on what matters.</p>
+        <p className="hero-learning-note">Build practical AI skills with <a href="/academy">BrandMint Academy <ArrowUpRight size={13} aria-hidden="true" /></a>.</p>
         <div className="hero-actions">
           <a className="home-primary" href="https://calendly.com/team-brandmint/30min" target="_blank" rel="noopener noreferrer">
             Book a 30-min call <ArrowUpRight size={18} aria-hidden="true" />
           </a>
           <a className="home-secondary" href="#solutions">Find your solution <ArrowDown size={16} aria-hidden="true" /></a>
         </div>
-        <p className="hero-call-note">Bring one workflow you want to improve. Let’s find a useful starting point.</p>
+        <p className="hero-call-note">Start with one workflow. Build from there.</p>
         <div className="hero-signature"><span /> BrandMint AI Pvt. Ltd. <span className="signature-divider">/</span> Bengaluru, India</div>
       </div>
       <HeroWorkflow />

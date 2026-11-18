@@ -3,7 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 
 interface ExampleFrame { label: string; message: string; status: string; icon: LucideIcon }
 interface ExampleStep { title: string; text: string; icon: LucideIcon }
-interface HeroExample { id: string; label: string; frames: ExampleFrame[]; steps: ExampleStep[]; href: string; action: string }
+export interface HeroExample { id: string; label: string; frames: ExampleFrame[]; steps: ExampleStep[]; href: string; action: string }
 
 export const HERO_EXAMPLES: HeroExample[] = [
   {
