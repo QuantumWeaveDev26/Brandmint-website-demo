@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { MonoNavbar, type RoutePath } from './components/MonoNavbar';
 import { MonoScrollHero } from './components/MonoScrollHero';
+import { HomeNextSteps } from './components/HomeNextSteps';
 import { WorkflowExample } from './components/WorkflowExample';
 import { PrivacyNotice } from './components/PrivacyNotice';
 import { useMotionSettings } from './components/MotionSettings';
@@ -205,9 +206,6 @@ export const App: React.FC = () => {
               onOpenBooking={() => openPilot()}
               onNavigate={navigate}
             />
-            <ScrollStageTransform>
-              <MonoSplitTransformation />
-            </ScrollStageTransform>
             <FigmaWeaveTransformation onOpenBooking={openPilot} />
             <ScrollStageTransform>
               <WorkflowExample onOpenBooking={() => openPilot('WhatsApp enquiry to CRM handoff')} />
@@ -216,11 +214,15 @@ export const App: React.FC = () => {
               <MonoWhatsAppSimulator onOpenBooking={() => openPilot('WhatsApp Automation & CRM Sync')} />
             </ScrollStageTransform>
             <ScrollStageTransform>
+              <MonoSplitTransformation />
+            </ScrollStageTransform>
+            <ScrollStageTransform>
               <HomePrinciplesStack />
             </ScrollStageTransform>
             <ScrollStageTransform>
               <MonoRoiCalculator onOpenBooking={() => openPilot()} />
             </ScrollStageTransform>
+            <HomeNextSteps />
           </>
         )}
 
@@ -294,7 +296,7 @@ export const App: React.FC = () => {
         onVisibilityChange={setCookieBannerVisible}
       />
 
-      {/* Vertically Stacked WhatsApp (Top) + Ishani AI Help (Bottom) Support Dock */}
+      {/* One contact launcher for WhatsApp, Ishani, and scheduling. */}
       <FloatingSupportWidgets
         currentPath={currentPath}
         onNavigate={navigate}

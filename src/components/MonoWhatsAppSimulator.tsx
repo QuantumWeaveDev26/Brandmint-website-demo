@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCheck, MessageCircle, Sparkles, ArrowUpRight, ArrowRight } from 'lucide-react';
+import { CheckCheck, Sparkles, ArrowUpRight, ArrowRight } from 'lucide-react';
 import brandmintLogo from '../assets/brandmint-logo.webp';
 import { useMotionSettings } from './MotionSettings';
 import { ProTiltCard } from './ProTiltCard';
@@ -119,6 +119,7 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
   const { paused } = useMotionSettings();
   const [step, setStep] = useState(1);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [chosenByVisitor, setChosenByVisitor] = useState(false);
   const [inView, setInView] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -141,6 +142,7 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
   useEffect(() => {
     if (!inView || paused) return;
     if (step >= 4) {
+      if (chosenByVisitor) return;
       const nextTimer = setTimeout(() => {
         setActiveIdx((i) => (i + 1) % SCENARIOS.length);
         setStep(1);
@@ -149,7 +151,7 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
     }
     const timer = setTimeout(() => setStep((s) => s + 1), 1550);
     return () => clearTimeout(timer);
-  }, [activeIdx, step, inView, paused]);
+  }, [activeIdx, step, inView, paused, chosenByVisitor]);
 
   const activeScenario = SCENARIOS[activeIdx];
   const visibleSteps = paused ? 4 : step;
@@ -174,16 +176,13 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
       {/* Compact Header + Scenario Switcher */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-7">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#7265C2]/45 bg-[#160952]/80 text-[11px] font-semibold text-[#CCC7F2] mb-2.5">
-            <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
-            <span>Live WhatsApp Automation</span>
-          </div>
           <h2 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-white">
             Automated Messages{' '}
             <span className="font-editorial text-3xl sm:text-[42px] text-aurora pr-1">
               in Real Time.
             </span>
           </h2>
+          <p className="mt-3 text-sm leading-relaxed text-[#CCC7F2]">Illustrative demo using scripted messages. Explore how an enquiry could move from first reply to team handoff.</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -197,6 +196,7 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
                 onClick={() => {
                   setActiveIdx(i);
                   setStep(1);
+                  setChosenByVisitor(true);
                 }}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-all cursor-pointer ${
                   isActive
@@ -372,9 +372,9 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
                         {visibleSteps % 2 === 1 ? 'AI replying automatically' : 'Incoming WhatsApp message'}
                       </span>
                       <span className="flex items-center gap-1">
-                        <span className="w-1 h-1 rounded-full bg-[#25D366] animate-bounce" />
-                        <span className="w-1 h-1 rounded-full bg-[#7265C2] animate-bounce [animation-delay:140ms]" />
-                        <span className="w-1 h-1 rounded-full bg-[#CCC7F2] animate-bounce [animation-delay:280ms]" />
+                        <span className="w-1 h-1 rounded-full bg-[#25D366] animate-pulse" />
+                        <span className="w-1 h-1 rounded-full bg-[#7265C2] animate-pulse [animation-delay:140ms]" />
+                        <span className="w-1 h-1 rounded-full bg-[#CCC7F2] animate-pulse [animation-delay:280ms]" />
                       </span>
                     </motion.div>
                   )}

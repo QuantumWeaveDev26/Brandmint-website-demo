@@ -191,7 +191,7 @@ export const ContactPage: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label htmlFor="contact-name" className="block text-xs text-[#CCC7F2] font-semibold mb-1">
-                      Name *
+                      Your Name *
                     </label>
                     <input
                       id="contact-name"
@@ -264,7 +264,7 @@ export const ContactPage: React.FC = () => {
                 </p>
                 {draftUrl && (
                   <div role="status" className="text-xs leading-relaxed text-[#CCC7F2] bg-[#160952] rounded-xl p-3">
-                    <p>Draft ready — if WhatsApp did not open automatically:</p>
+                    <p>Draft ready. Review and send it in WhatsApp. If WhatsApp did not open automatically:</p>
                     <a href={draftUrl} target="_blank" rel="noopener noreferrer" className="underline font-semibold inline-block mt-1">
                       Open WhatsApp draft
                     </a>

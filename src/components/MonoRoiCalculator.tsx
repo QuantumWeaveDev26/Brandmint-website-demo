@@ -41,6 +41,7 @@ export const MonoRoiCalculator: React.FC<MonoRoiCalculatorProps> = ({ onOpenBook
           Size Your AI{' '}
           <span className="font-editorial text-3xl sm:text-[46px] text-aurora pr-1">System.</span>
         </h2>
+        <p className="mt-3 text-sm leading-relaxed text-[#CCC7F2] max-w-xl mx-auto">Explore an illustrative starting point for enquiry handling. These suggestions are not a quote or a guarantee; your tools, team, and workflow determine the final scope.</p>
       </div>
 
       <ProTiltCard maxTilt={3} className="rounded-2xl overflow-hidden glass-frame">
@@ -58,7 +59,7 @@ export const MonoRoiCalculator: React.FC<MonoRoiCalculatorProps> = ({ onOpenBook
           </div>
 
           <input
-            aria-label="Monthly Enquiries"
+            aria-label="Monthly customer enquiries"
             type="range"
             min="100"
             max="5000"
@@ -148,7 +149,7 @@ export const MonoRoiCalculator: React.FC<MonoRoiCalculatorProps> = ({ onOpenBook
 
         <div className="px-5 sm:px-6 py-3.5 border-t border-[#7265C2]/25 bg-[#0E0433]/90 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-20">
           <span className="text-xs text-[#CCC7F2] font-medium text-center sm:text-left">
-            Tailored 30-day enterprise AI roadmap
+            Discuss a roadmap built around your workflow
           </span>
           <button
             type="button"

@@ -74,11 +74,13 @@ describe('review regressions', () => {
   it('does not fetch video on reduced motion until the visitor explicitly plays it', () => {
     vi.spyOn(window, 'matchMedia').mockImplementation(query => ({ matches: query.includes('prefers-reduced-motion'), media: query, addEventListener() {}, removeEventListener() {} }) as MediaQueryList);
     const { container } = render(<MotionSettings><MotionToggle /><SmartVideo priority src="/videos/bengaluru-tech-park.mp4" /></MotionSettings>);
-    expect(container.querySelectorAll('source').length).toBe(0);
+    expect(container.querySelector('video')?.getAttribute('src')).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: /play videos/i }));
-    expect(container.querySelectorAll('source').length).toBe(2);
+    expect(container.querySelector('video')?.getAttribute('src')).toContain('.mp4');
+    Object.defineProperty(container.querySelector('video')!, 'paused', { configurable: true, value: false });
     fireEvent.click(screen.getByRole('button', { name: /pause videos/i }));
     expect(HTMLMediaElement.prototype.pause).toHaveBeenCalled();
+    expect(container.querySelector('video')?.getAttribute('src')).toBeNull();
   });
   it('retains the visitor’s chosen workflow and clearly labels the scripted demo', () => {
     vi.useFakeTimers();
@@ -97,7 +99,7 @@ describe('review regressions', () => {
     expect(phone.checkValidity()).toBe(false);
   });
 
-  it('keeps secondary-page stage selections stable while reading', () => {
+  it('keeps the selected solution highlighted while reading', () => {
     vi.useFakeTimers();
     const saved = globalThis.IntersectionObserver;
     globalThis.IntersectionObserver = class {
@@ -107,16 +109,15 @@ describe('review regressions', () => {
     } as unknown as typeof IntersectionObserver;
     try {
       render(<SolutionsPage onOpenBooking={vi.fn()} />);
-      const stage = screen.getByRole('button', { name: /03.*pilot/i });
+      const stage = screen.getByRole('heading', { name: 'Enterprise AI Integration' }).closest('.glass-card')!;
       fireEvent.click(stage);
       act(() => { vi.advanceTimersByTime(5000); });
-      expect(stage.className).toContain('btn-aurora');
-      expect(stage.getAttribute('aria-pressed')).toBe('true');
+      expect(stage.className).toContain('glass-card-active');
     } finally { globalThis.IntersectionObserver = saved; }
   });
-  it('opens scheduling directly from the WhatsApp support preview', () => {
+  it('opens scheduling directly from the unified support menu', () => {
     render(<FloatingSupportWidgets currentPath="/" onNavigate={vi.fn()} onOpenBooking={vi.fn()} cookieBannerVisible={false} />);
-    fireEvent.click(screen.getByRole('button', { name: /whatsapp support widget/i }));
+    fireEvent.click(screen.getByRole('button', { name: /talk to us/i }));
     expect(screen.getByRole('link', { name: /schedule consultation/i }).getAttribute('href')).toBe('https://calendly.com/team-brandmint/30min');
   });
 

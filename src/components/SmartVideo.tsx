@@ -147,7 +147,7 @@ export const SmartVideo: React.FC<SmartVideoProps> = ({
   return (
     <video
       ref={targetRef}
-      src={loaded ? resolvedSrc : undefined}
+      src={loaded && !stopped ? resolvedSrc : undefined}
       poster={asset?.poster}
       autoPlay={loaded && !stopped}
       loop

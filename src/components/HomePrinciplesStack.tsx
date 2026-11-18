@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Sparkles } from 'lucide-react';
 
 interface PrincipleCard {
   num: string;
@@ -165,11 +164,6 @@ export const HomePrinciplesStack: React.FC = () => {
         <span className="font-editorial text-2xl sm:text-3xl text-[#CCC7F2]/85 tracking-tight">
           BrandMint Charter
         </span>
-        <div className="flex items-center gap-3 text-[#7265C2]">
-          <span className="w-12 h-px bg-[#7265C2]/45" />
-          <Sparkles className="w-3 h-3 text-[#CCC7F2]/80" />
-          <span className="w-12 h-px bg-[#7265C2]/45" />
-        </div>
       </div>
     </section>
   );

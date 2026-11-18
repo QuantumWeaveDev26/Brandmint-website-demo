@@ -5,8 +5,7 @@ import { Pause, Play } from 'lucide-react';
 const MotionContext = createContext({ paused: false, toggle: () => {} });
 
 export function MotionSettings({ children }: { children: React.ReactNode }) {
-  // Always play videos by default when a user opens the website; only pause when explicitly toggled.
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   useEffect(() => {
     document.documentElement.dataset.motion = paused ? 'paused' : 'playing';

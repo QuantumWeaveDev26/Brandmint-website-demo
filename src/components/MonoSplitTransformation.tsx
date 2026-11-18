@@ -150,8 +150,8 @@ export const MonoSplitTransformation: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A0224]/45 via-transparent to-transparent" />
 
           <div className="flex justify-start relative z-10">
-            <span className="text-[11px] font-medium text-white/85 bg-[#0A0224]/50 border border-white/15 px-2.5 py-1 rounded-full inline-flex items-center gap-1 whitespace-nowrap">
-              <X className="w-3 h-3 text-[#CCC7F2]" />
+            <span className="comparison-before text-[11px] font-medium text-[#F87171] bg-[#0A0224]/85 border border-white/15 px-2.5 py-1 rounded-full inline-flex items-center gap-1 whitespace-nowrap">
+              <X className="w-3 h-3" />
               Before: Manual
             </span>
           </div>
@@ -177,8 +177,8 @@ export const MonoSplitTransformation: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-l from-[#160952]/40 via-transparent to-transparent" />
 
           <div className="flex justify-end relative z-10">
-            <span className="text-[11px] font-medium text-white/90 bg-[#0A0224]/50 border border-white/15 px-2.5 py-1 rounded-full inline-flex items-center gap-1 whitespace-nowrap">
-              <Check className="w-3 h-3 text-[#34D399] stroke-[2.5]" />
+            <span className="comparison-after text-[11px] font-medium text-[#4ADE80] bg-[#0A0224]/85 border border-white/15 px-2.5 py-1 rounded-full inline-flex items-center gap-1 whitespace-nowrap">
+              <Check className="w-3 h-3 stroke-[2.5]" />
               After: BrandMint AI
             </span>
           </div>
