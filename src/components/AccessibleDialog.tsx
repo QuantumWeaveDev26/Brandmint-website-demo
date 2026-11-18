@@ -31,7 +31,7 @@ export function AccessibleDialog({ isOpen, onClose, title, children }: {
     };
   }, [isOpen]);
   if (!isOpen) return null;
-  return <dialog ref={ref} aria-modal="true" aria-label={title} onCancel={event => { event.preventDefault(); onClose(); }}
+  return <dialog ref={ref} data-lenis-prevent aria-modal="true" aria-label={title} onCancel={event => { event.preventDefault(); onClose(); }}
     onClick={event => { if (event.target === ref.current) onClose(); }}
     className="brandmint-dialog m-auto w-[calc(100%-2rem)] max-w-lg max-h-[90dvh] overflow-y-auto rounded-3xl border border-[#7265C2]/50 bg-[#0E0433] p-6 sm:p-8 text-white shadow-2xl">
     <div className="flex items-start justify-between gap-4 mb-4"><h2 className="font-display text-2xl font-bold">{title}</h2>

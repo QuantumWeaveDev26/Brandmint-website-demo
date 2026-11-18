@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Sparkles, Network, Users, Cpu, Briefcase, GraduationCap } from 'lucide-react';
+import { ArrowUpRight, ArrowLeft, ArrowRight, Sparkles, Network, Users, Cpu, Briefcase, GraduationCap } from 'lucide-react';
 import { SmartVideo } from './SmartVideo';
 import { motion } from 'framer-motion';
 import { useMotionSettings } from './MotionSettings';
@@ -156,7 +156,7 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
   useLayoutEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
-    const measure = () => setPinned(stage.offsetHeight === 0 || stage.offsetHeight + 82 <= window.innerHeight);
+    const measure = () => setPinned(window.innerWidth >= 768 && (stage.offsetHeight === 0 || stage.offsetHeight + 82 <= window.innerHeight));
     measure();
     const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
     observer?.observe(stage);
@@ -284,6 +284,13 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
           </div>)}
         </div>
       </div>
+      <nav className="solution-mobile-pager" aria-label="Browse solutions">
+        <button type="button" disabled={activeIdx === 0} aria-label={`Previous solution: ${SERVICES[Math.max(0, activeIdx - 1)].shortTitle}`}
+          onClick={() => selectService(activeIdx - 1)}><ArrowLeft size={18} aria-hidden="true" /> Previous</button>
+        <span>{activeIdx + 1} of {SERVICES.length}</span>
+        <button type="button" disabled={activeIdx === SERVICES.length - 1} aria-label={`Next solution: ${SERVICES[Math.min(SERVICES.length - 1, activeIdx + 1)].shortTitle}`}
+          onClick={() => selectService(activeIdx + 1)}>Next <ArrowRight size={18} aria-hidden="true" /></button>
+      </nav>
       </div>
       </div>
     </section>

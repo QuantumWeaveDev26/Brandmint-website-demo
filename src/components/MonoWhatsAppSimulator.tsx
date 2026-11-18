@@ -322,7 +322,7 @@ export const MonoWhatsAppSimulator: React.FC<MonoWhatsAppSimulatorProps> = ({ on
               </div>
 
               {/* Phone Screen Message Stage (Fixed Height — Never Enlarges) */}
-              <div className="h-[355px] overflow-y-auto aurora-dots-bg px-3 py-3 flex flex-col justify-between gap-2.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div data-lenis-prevent className="h-[355px] overflow-y-auto aurora-dots-bg px-3 py-3 flex flex-col justify-between gap-2.5 text-xs [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="space-y-2.5">
                 <AnimatePresence mode="popLayout">
                   {messages.map((m) => (

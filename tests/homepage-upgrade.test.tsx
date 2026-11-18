@@ -5,8 +5,27 @@ import { FigmaWeaveTransformation } from '../src/components/FigmaWeaveTransforma
 import { FloatingSupportWidgets } from '../src/components/FloatingSupportWidgets';
 import { HeroWorkflow } from '../src/components/HeroWorkflow';
 import { WorkflowExample } from '../src/components/WorkflowExample';
+import { MonoNavbar } from '../src/components/MonoNavbar';
 
 describe('homepage visitor journeys', () => {
+  it('moves focus into mobile navigation and returns it to the menu button on Escape', () => {
+    render(<MonoNavbar currentPath="/" onNavigate={vi.fn()} onOpenBooking={vi.fn()} />);
+    const toggle = screen.getByRole('button', { name: 'Toggle Menu' });
+    toggle.focus();
+    fireEvent.click(toggle);
+    expect(document.activeElement?.closest('nav')?.getAttribute('aria-label')).toBe('Mobile navigation');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(document.activeElement).toBe(toggle);
+  });
+
+  it('provides sequential service controls for visitors browsing on a phone', () => {
+    render(<FigmaWeaveTransformation />);
+    fireEvent.click(screen.getByRole('button', { name: /next solution/i }));
+    expect(screen.getAllByRole('tab')[1].getAttribute('aria-selected')).toBe('true');
+    fireEvent.click(screen.getByRole('button', { name: /previous solution/i }));
+    expect(screen.getAllByRole('tab')[0].getAttribute('aria-selected')).toBe('true');
+  });
   it('lets visitors explore voice assistants and learning alongside automation', () => {
     render(<HeroWorkflow />);
     fireEvent.click(screen.getByRole('tab', { name: 'Voice assistants' }));

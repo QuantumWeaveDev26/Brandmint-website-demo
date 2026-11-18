@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useIsPresent } from 'framer-motion';
 import { ArrowUpRight, MessageCircle, Menu, X, ChevronDown } from 'lucide-react';
 import brandmintLogo from '../assets/brandmint-logo.webp';
+
+function PresenceSafeNav(props: React.ComponentProps<typeof motion.nav>) {
+  const present = useIsPresent();
+  return <motion.nav {...props} inert={!present} aria-hidden={!present}
+    style={{ ...props.style, pointerEvents: present ? 'auto' : 'none' }} />;
+}
 
 export type RoutePath =
   | '/'
@@ -73,6 +79,7 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -84,6 +91,7 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
     };
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        if (headerRef.current?.querySelector('#mobile-navigation')) menuButtonRef.current?.focus();
         setOpenDropdown(null);
         setMobileOpen(false);
       }
@@ -95,6 +103,10 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
       document.removeEventListener('keydown', onKeyDown);
     };
   }, []);
+
+  useEffect(() => {
+    if (mobileOpen) headerRef.current?.querySelector<HTMLAnchorElement>('#mobile-navigation a')?.focus({ preventScroll: true });
+  }, [mobileOpen]);
 
   const clearCloseTimer = () => {
     if (closeTimerRef.current) {
@@ -124,7 +136,7 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
   };
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-5 py-2.5">
+    <header ref={headerRef} className="site-navigation fixed top-0 left-0 right-0 z-50 px-3 sm:px-5 py-2.5">
       <div className="max-w-7xl mx-auto rounded-full bg-[#0E0433]/95 border border-[#7265C2]/35 px-3 sm:px-4 xl:px-5 py-1.5 flex items-center justify-between gap-2 shadow-[0_14px_38px_rgba(5,1,20,0.82),inset_0_1px_0_rgba(204,199,242,0.2)]">
         {/* Official Brand Identity */}
         <a
@@ -258,7 +270,7 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
         </nav>
 
         {/* Action CTAs */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="nav-actions flex items-center gap-1.5 sm:gap-2 shrink-0">
           <a
             href="https://wa.me/919972965677?text=Hi%20BrandMint%20AI%20Bengaluru%2C%20I%20would%20like%20to%20connect."
             target="_blank"
@@ -281,6 +293,7 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
 
           <button
             type="button"
+            ref={menuButtonRef}
             onClick={() => setMobileOpen((v) => !v)}
             className="lg:hidden p-2 rounded-full border border-[#7265C2]/40 text-[#CCC7F2] hover:bg-[#312185]/50 transition-colors cursor-pointer"
             aria-label="Toggle Menu"
@@ -295,8 +308,9 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
       {/* Compact, Non-Crowded Mobile & Tablet Popover Drawer */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.nav
+          <PresenceSafeNav
             id="mobile-navigation"
+            data-lenis-prevent
             aria-label="Mobile navigation"
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -394,7 +408,7 @@ export const MonoNavbar: React.FC<MonoNavbarProps> = ({
                 <span>WhatsApp</span>
               </a>
             </div>
-          </motion.nav>
+          </PresenceSafeNav>
         )}
       </AnimatePresence>
     </header>

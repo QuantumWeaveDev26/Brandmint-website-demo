@@ -1,10 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useIsPresent } from 'framer-motion';
 import { Bot, Send, X, ArrowUpRight, MessageCircle, Calendar } from 'lucide-react';
 import brandmintLogo from '../assets/brandmint-logo.webp';
 import type { RoutePath } from './MonoNavbar';
 import { getBrandMintAiReply } from '../data/brandmintKnowledge';
 import { trackBrandMintEvent } from '../utils/telemetry';
+
+function PresenceSafePanel(props: React.ComponentProps<typeof motion.div>) {
+  const present = useIsPresent();
+  return <motion.div {...props} inert={!present} aria-hidden={!present}
+    style={{ ...props.style, pointerEvents: present ? 'auto' : 'none' }} />;
+}
 
 interface FloatingSupportWidgetsProps {
   currentPath: RoutePath;
@@ -57,6 +63,22 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
   const launcherRef = useRef<HTMLButtonElement | null>(null);
   const contactMenuRef = useRef<HTMLDivElement | null>(null);
   const dockRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    const update = () => {
+      if (!dockRef.current) return;
+      const height = viewport?.height ?? window.innerHeight;
+      dockRef.current.style.setProperty('--support-viewport-height', `${height}px`);
+      const occlusion = Math.max(0, window.innerHeight - height - (viewport?.offsetTop ?? 0));
+      dockRef.current.style.setProperty('--support-keyboard-offset', `${occlusion}px`);
+      dockRef.current.dataset.compact = String(height < 480);
+    };
+    update();
+    viewport?.addEventListener('resize', update);
+    viewport?.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    return () => { viewport?.removeEventListener('resize', update); viewport?.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
+  }, [cookieBannerVisible]);
   useEffect(() => {
     if (waPreviewOpen) contactMenuRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
   }, [waPreviewOpen]);
@@ -149,9 +171,9 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
   return (
     <div ref={dockRef} className="support-dock fixed right-4 sm:right-6 bottom-4 sm:bottom-6 z-50 flex flex-col items-end gap-3">
       {/* 1. Ishani AI Assistant Drawer */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {aiOpen && (
-          <motion.div
+          <PresenceSafePanel key="ishani"
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
@@ -167,7 +189,7 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
                 <div className="text-left min-w-0">
                   <div className="font-display text-sm font-bold flex items-center gap-1.5 truncate">
                     <span>Ishani</span>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#0E0433]/55 text-[#CCC7F2]">
+                    <span className="support-guide-badge text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#0E0433]/55 text-[#CCC7F2]">
                       AI Guide
                     </span>
                     <span className="w-2 h-2 rounded-full bg-[#34D399] shrink-0" />
@@ -183,7 +205,8 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
                   href={waUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-[#0A0224] text-[11px] font-bold shadow-sm transition-transform hover:scale-105"
+                  className="support-whatsapp-switch inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#25D366] hover:bg-[#1ebe5d] text-[#0A0224] text-[11px] font-bold shadow-sm transition-transform hover:scale-105"
+                  aria-label="Switch to WhatsApp"
                   title="Switch to Official WhatsApp"
                 >
                   <MessageCircle className="w-3 h-3 fill-current" />
@@ -204,6 +227,7 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
             <div
               ref={scrollRef}
               role="log"
+              data-lenis-prevent
               aria-label="Conversation with Ishani"
               aria-live="polite"
               className="h-[min(32dvh,250px)] p-3 overflow-y-auto bg-[#0A0224] space-y-2.5 text-left"
@@ -259,7 +283,7 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
             </div>
 
             {/* Dynamic Smart Quick Chips */}
-            <div className="px-3 py-2 bg-[#0E0433] border-t border-[#7265C2]/25 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            <div data-lenis-prevent className="support-quick-prompts px-3 py-2 bg-[#0E0433] border-t border-[#7265C2]/25 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
               {quickPrompts.map((qp) => (
                 <button
                   key={qp}
@@ -293,20 +317,18 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
                 <Send className="w-3.5 h-3.5" />
               </button>
             </form>
-          </motion.div>
+          </PresenceSafePanel>
         )}
-      </AnimatePresence>
 
       {/* One contact menu keeps secondary channels out of the page's reading path. */}
-      <AnimatePresence>
         {waPreviewOpen && !aiOpen && (
-          <motion.div
+          <PresenceSafePanel key="contact"
             initial={{ opacity: 0, y: 12, scale: 0.96 }}
             ref={contactMenuRef}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.18 }}
-            role="region" aria-label="Contact BrandMint" className="w-[min(320px,calc(100vw-2rem))] rounded-2xl bg-[#120642]/98 border border-[#7265C2]/45 shadow-[0_22px_55px_rgba(5,1,20,0.88)] overflow-hidden mb-1 text-left"
+            role="region" aria-label="Contact BrandMint" data-lenis-prevent className="w-[min(320px,calc(100vw-2rem))] rounded-2xl bg-[#120642]/98 border border-[#7265C2]/45 shadow-[0_22px_55px_rgba(5,1,20,0.88)] overflow-hidden mb-1 text-left"
           >
             <div className="bg-gradient-to-r from-[#312185] to-[#7265C2] px-3.5 py-2.5 text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -350,7 +372,7 @@ export const FloatingSupportWidgets: React.FC<FloatingSupportWidgetsProps> = ({
                 </a>
               </div>
             </div>
-          </motion.div>
+          </PresenceSafePanel>
         )}
       </AnimatePresence>
 
