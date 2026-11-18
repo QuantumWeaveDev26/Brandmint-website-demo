@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
-import { ArrowUpRight, Sparkles, Search, Globe, MapPin, MessageSquare, Cpu, CheckCircle2, FileText, Calendar } from 'lucide-react';
-import { ScrollStageTransform } from '../components/ScrollStageTransform';
-import { ProTiltCard } from '../components/ProTiltCard';
-import { SmartVideo } from '../components/SmartVideo';
-import { SOLUTIONS_DROPDOWN } from '../components/MonoNavbar';
+import React from "react";
+import {
+  ArrowUpRight,
+  Sparkles,
+  Search,
+  Globe,
+  MapPin,
+  MessageSquare,
+  Cpu,
+  CheckCircle2,
+  FileText,
+  Calendar,
+} from "lucide-react";
+import { SmartVideo } from "../components/SmartVideo";
+import { SOLUTIONS_DROPDOWN } from "../components/MonoNavbar";
 
 interface SolutionsPageProps {
   onOpenBooking: () => void;
@@ -11,91 +20,121 @@ interface SolutionsPageProps {
 
 const SOLUTION_AREAS = [
   {
-    id: 'personalisation',
-    num: '01',
-    badge: 'Personalise',
-    title: 'AI-Powered Personalisation',
-    headline: 'Make every customer feel understood.',
+    id: "personalisation",
+    num: "01",
+    badge: "Personalise",
+    title: "AI-Powered Personalisation",
+    headline: "Make every customer feel understood.",
     specs: [
-      'Tailored Customer Journeys',
-      'Multilingual Context Assistants',
-      'Relevant Next-Step Handoffs',
+      "Tailored Customer Journeys",
+      "Multilingual Context Assistants",
+      "Relevant Next-Step Handoffs",
     ],
   },
   {
-    id: 'ai-integration',
-    num: '02',
-    badge: 'Connect',
-    title: 'Enterprise AI Integration',
-    headline: 'Make your systems work together.',
+    id: "ai-integration",
+    num: "02",
+    badge: "Connect",
+    title: "Enterprise AI Integration",
+    headline: "Make your systems work together.",
     specs: [
-      'Approved Knowledge Sync',
-      'CRM & WhatsApp Integration',
-      'Human-Reviewed Updates',
+      "Approved Knowledge Sync",
+      "CRM & WhatsApp Integration",
+      "Human-Reviewed Updates",
     ],
   },
   {
-    id: 'workforce-multiplier',
-    num: '03',
-    badge: 'Multiply',
-    title: 'AI Workforce Multiplier',
-    headline: 'Give your team more capacity.',
+    id: "workforce-multiplier",
+    num: "03",
+    badge: "Multiply",
+    title: "AI Workforce Multiplier",
+    headline: "Give your team more capacity.",
     specs: [
-      'Role-Based AI Assistants',
-      'Shared Context & Handoffs',
-      'Escalation & Review Rules',
+      "Role-Based AI Assistants",
+      "Shared Context & Handoffs",
+      "Escalation & Review Rules",
     ],
   },
   {
-    id: 'workflow-automation',
-    num: '04',
-    badge: 'Automate',
-    title: 'AI Workflow & Automation',
-    headline: 'Keep work moving, end to end.',
+    id: "workflow-automation",
+    num: "04",
+    badge: "Automate",
+    title: "AI Workflow & Automation",
+    headline: "Keep work moving, end to end.",
     specs: [
-      'Enquiry Routing & Follow-Up',
-      'Automated Reporting Flows',
-      'Exception Handling',
+      "Enquiry Routing & Follow-Up",
+      "Automated Reporting Flows",
+      "Exception Handling",
     ],
   },
   {
-    id: 'executive-assistants',
-    num: '05',
-    badge: 'Empower Leaders',
-    title: 'Executive AI Assistants',
-    headline: 'Give leaders more room to lead.',
+    id: "executive-assistants",
+    num: "05",
+    badge: "Empower Leaders",
+    title: "Executive AI Assistants",
+    headline: "Give leaders more room to lead.",
     specs: [
-      'Pre-Meeting Leadership Briefs',
-      'Research & Action Tracking',
-      'Correspondence Drafts',
+      "Pre-Meeting Leadership Briefs",
+      "Research & Action Tracking",
+      "Correspondence Drafts",
     ],
   },
   {
-    id: 'education-institutions',
-    num: '06',
-    badge: 'Empower Learners',
-    title: 'AI-First Institutions',
-    headline: 'Help every learner move forward.',
+    id: "education-institutions",
+    num: "06",
+    badge: "Empower Learners",
+    title: "AI-First Institutions",
+    headline: "Help every learner move forward.",
     specs: [
-      'Adaptive Practice Paths',
-      'Educator Insights',
-      'Institutional Workflows',
+      "Adaptive Practice Paths",
+      "Educator Insights",
+      "Institutional Workflows",
     ],
   },
 ];
 
 const VISIBILITY_PILLARS = [
-  { code: 'SEO', title: 'Search Authority', desc: 'High-intent organic rankings.', icon: Search },
-  { code: 'AEO', title: 'AI Citations', desc: 'Cited inside AI assistants.', icon: Sparkles },
-  { code: 'GEO', title: 'Generative Reach', desc: 'Regional AI search visibility.', icon: Globe },
-  { code: 'GBP', title: 'Local Presence', desc: 'Verified profile authority.', icon: MapPin },
-  { code: 'CRM', title: 'Channel Sync', desc: 'WhatsApp & web pipelines.', icon: MessageSquare },
-  { code: 'SOP', title: 'AI Governance', desc: 'Human review checkpoints.', icon: Cpu },
+  {
+    code: "SEO",
+    title: "Search Authority",
+    desc: "High-intent organic rankings.",
+    icon: Search,
+  },
+  {
+    code: "AEO",
+    title: "AI Citations",
+    desc: "Cited inside AI assistants.",
+    icon: Sparkles,
+  },
+  {
+    code: "GEO",
+    title: "Generative Reach",
+    desc: "Regional AI search visibility.",
+    icon: Globe,
+  },
+  {
+    code: "GBP",
+    title: "Local Presence",
+    desc: "Verified profile authority.",
+    icon: MapPin,
+  },
+  {
+    code: "CRM",
+    title: "Channel Sync",
+    desc: "WhatsApp & web pipelines.",
+    icon: MessageSquare,
+  },
+  {
+    code: "SOP",
+    title: "AI Governance",
+    desc: "Human review checkpoints.",
+    icon: Cpu,
+  },
 ];
 
-export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onOpenBooking }) => {
-  const [hoveredPkg, setHoveredPkg] = useState<string>('workforce-multiplier');
-
+export const SolutionsPage: React.FC<SolutionsPageProps> = ({
+  onOpenBooking,
+}) => {
   return (
     <div className="w-full pt-20 pb-8">
       {/* 1. Hero Stage */}
@@ -143,176 +182,107 @@ export const SolutionsPage: React.FC<SolutionsPageProps> = ({ onOpenBooking }) =
           </div>
         </div>
       </section>
-
-      {/* 2. Balanced 6 Enterprise AI Solution Areas Grid */}
-      <ScrollStageTransform>
-        <section className="py-10 sm:py-12 px-4 w-full">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <span className="text-[11px] font-semibold text-[#CCC7F2] uppercase tracking-wider block mb-1.5">
-                Core Capabilities
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                Enterprise{' '}
-                <span className="font-editorial text-3xl sm:text-[38px] text-aurora pr-1">Solution Suite.</span>
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-stretch">
-              {SOLUTION_AREAS.map((sol) => {
-                const isFeatured = hoveredPkg === sol.id;
-                const waHref = `https://wa.me/919972965677?text=${encodeURIComponent(
-                  `Hi BrandMint AI Bengaluru! We would like to explore ${sol.title} for our organisation.`
-                )}`;
-                return (
-                  <ProTiltCard
-                    key={sol.id}
-                    maxTilt={4}
-                    onClick={() => setHoveredPkg(sol.id)}
-                    onMouseEnter={() => setHoveredPkg(sol.id)}
-                    className={`h-full rounded-2xl p-5 flex flex-col justify-between transition-all ${
-                      isFeatured ? 'glass-card-active' : 'glass-card'
-                    }`}
+      <div className="inner-content solutions-content">
+        <section
+          className="inner-section service-directory"
+          aria-labelledby="services-title"
+        >
+          <div className="inner-section-heading">
+            <h2 id="services-title">
+              Explore the
+              <br />
+              <span className="font-editorial">solution suite.</span>
+            </h2>
+          </div>
+          <div>
+            {SOLUTION_AREAS.map((sol) => (
+              <article className="service-row" key={sol.id} id={sol.id}>
+                <div>
+                  <h3>{sol.title}</h3>
+                  <p className="service-outcome font-editorial">
+                    {sol.headline}
+                  </p>
+                </div>
+                <div>
+                  <ul>
+                    {sol.specs.map((spec) => (
+                      <li key={spec}>
+                        <CheckCircle2 size={16} aria-hidden="true" />
+                        {spec}
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    className="inner-text-action"
+                    href={`https://wa.me/919972965677?text=${encodeURIComponent(`Hi BrandMint AI Bengaluru! We would like to explore ${sol.title} for our organisation.`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Discuss ${sol.title} on WhatsApp`}
                   >
-                    <div className="relative z-20 flex flex-col flex-1 text-left">
-                      <div className="flex items-center justify-between text-xs pb-3 mb-3 border-b border-[#7265C2]/25">
-                        <span
-                          className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${
-                            isFeatured
-                              ? 'bg-[#CCC7F2] text-[#0A0224] font-bold'
-                              : 'bg-[#312185]/80 text-[#CCC7F2] border border-[#7265C2]/45'
-                          }`}
-                        >
-                          {sol.badge}
-                        </span>
-                        <span className="text-[#CCC7F2]/75 font-semibold tabular-nums text-[11px]">
-                          {sol.num}
-                        </span>
-                      </div>
-
-                      <h3 className="font-display text-base sm:text-lg font-bold tracking-tight text-white leading-snug">
-                        {sol.title}
-                      </h3>
-
-                      <p className="font-editorial text-base sm:text-lg text-[#CCC7F2] mt-0.5 mb-3 leading-snug">
-                        {sol.headline}
-                      </p>
-
-                      <ul className="space-y-1.5 mb-4 mt-auto pt-3 border-t border-[#7265C2]/20">
-                        {sol.specs.map((sp) => (
-                          <li key={sp} className="flex items-start gap-2 text-xs font-medium text-white/90">
-                            <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#CCC7F2] mt-0.5" />
-                            <span>{sp}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <a
-                      href={waHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`w-full py-2.5 rounded-full font-semibold text-xs flex items-center justify-center gap-1.5 transition-all relative z-30 ${
-                        isFeatured
-                          ? 'bg-[#CCC7F2] text-[#0A0224] hover:bg-white shadow-md font-bold'
-                          : 'btn-aurora text-white'
-                      }`}
-                    >
-                      <span>Explore Solution</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </a>
-                  </ProTiltCard>
-                );
-              })}
-            </div>
+                    Discuss this solution{" "}
+                    <ArrowUpRight size={18} aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
-      </ScrollStageTransform>
-
-      {/* 3. Visibility Stack + Briefing Strip */}
-      <ScrollStageTransform>
-        <section className="py-10 px-4 max-w-6xl mx-auto w-full">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 mb-6 border-b border-[#7265C2]/25">
-            <div className="text-left">
-              <span className="text-[11px] font-semibold text-[#CCC7F2] uppercase tracking-wider block mb-1">
-                Growth Infrastructure
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                Visibility, CRM &amp;{' '}
-                <span className="font-editorial text-3xl sm:text-[38px] text-aurora pr-1">Governance.</span>
-              </h2>
-            </div>
-            <button
-              type="button"
-              onClick={onOpenBooking}
-              className="px-4 py-2 rounded-full btn-aurora text-white font-semibold text-xs inline-flex items-center gap-1.5 self-start transition-all cursor-pointer"
-            >
-              <span>Scope Custom Pilot</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+        <section
+          className="inner-section infrastructure-section"
+          aria-labelledby="infrastructure-title"
+        >
+          <div className="inner-section-heading">
+            <h2 id="infrastructure-title">
+              Visibility, CRM
+              <br />
+              <span className="font-editorial">&amp; governance.</span>
+            </h2>
+            <button className="inner-text-action" onClick={onOpenBooking}>
+              Scope a custom pilot <ArrowUpRight size={18} aria-hidden="true" />
             </button>
           </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 items-stretch mb-8">
-            {VISIBILITY_PILLARS.map((v) => {
-              const Icon = v.icon;
-              return (
-                <ProTiltCard
-                  key={v.code}
-                  maxTilt={4}
-                  onClick={onOpenBooking}
-                  className="h-full p-4 rounded-xl glass-card text-left flex flex-col justify-start gap-3 cursor-pointer"
-                >
-                  <div className="flex items-center justify-between text-[11px] font-semibold pb-2 border-b border-[#7265C2]/25 text-[#CCC7F2]">
-                    <span>{v.code}</span>
-                    <Icon className="w-3.5 h-3.5 text-[#7265C2]" />
-                  </div>
-                  <div>
-                    <h4 className="font-display text-sm font-bold text-white leading-snug">
-                      {v.title}
-                    </h4>
-                    <p className="text-[11px] text-[#CCC7F2]/80 mt-1 leading-snug">
-                      {v.desc}
-                    </p>
-                  </div>
-                </ProTiltCard>
-              );
-            })}
-          </div>
-
-          <div className="rounded-2xl p-5 sm:p-6 glass-frame flex flex-col md:flex-row md:items-center justify-between gap-4 text-left">
-            <div className="space-y-0.5">
-              <span className="text-[11px] font-semibold text-[#CCC7F2] uppercase tracking-wider block">
-                Executive Resources
-              </span>
-              <h3 className="font-display text-lg sm:text-xl font-bold text-white">
-                Solutions Brief &amp; 30-Minute Discovery Call
-              </h3>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-              <a
-                href="https://brandmint-connect.brandmintai.chatgpt.site/BrandMint_AI_Company_and_Solutions_Brief.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full bg-[#160952] hover:bg-[#312185] border border-[#7265C2]/45 text-[#CCC7F2] hover:text-white text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
-              >
-                <FileText className="w-3.5 h-3.5 text-[#CCC7F2]" />
-                <span>Company Brief (PDF)</span>
-              </a>
-              <a
-                href="https://calendly.com/team-brandmint/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-full btn-aurora text-white text-xs font-semibold inline-flex items-center gap-1.5 transition-all"
-              >
-                <Calendar className="w-3.5 h-3.5" />
-                <span>Book 30-Min Call</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
+          <dl className="infrastructure-list">
+            {VISIBILITY_PILLARS.map((v) => (
+              <div key={v.code}>
+                <dt>
+                  <span>{v.code}</span>
+                  {v.title}
+                </dt>
+                <dd>{v.desc}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+        <section
+          className="inner-section resource-line"
+          aria-label="Solutions resources"
+        >
+          <h2>
+            Take the
+            <br />
+            <span className="font-editorial">next step.</span>
+          </h2>
+          <div>
+            <a
+              className="inner-text-action"
+              href="https://brandmint-connect.brandmintai.chatgpt.site/BrandMint_AI_Company_and_Solutions_Brief.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FileText size={18} aria-hidden="true" /> Company brief (PDF){" "}
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
+            <a
+              className="home-primary"
+              href="https://calendly.com/team-brandmint/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a 30-min call <Calendar size={18} aria-hidden="true" />
+            </a>
           </div>
         </section>
-      </ScrollStageTransform>
+      </div>
     </div>
   );
 };

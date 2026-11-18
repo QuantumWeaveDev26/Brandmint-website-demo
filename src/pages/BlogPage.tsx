@@ -1,36 +1,45 @@
-import React from 'react';
-import { ArrowUpRight, BookOpen, MessageSquare, HelpCircle, Database, Zap } from 'lucide-react';
-import { ScrollStageTransform } from '../components/ScrollStageTransform';
-import { ProTiltCard } from '../components/ProTiltCard';
-import { SmartVideo } from '../components/SmartVideo';
+import React from "react";
+import {
+  ArrowUpRight,
+  BookOpen,
+  MessageSquare,
+  HelpCircle,
+  Database,
+  Zap,
+} from "lucide-react";
+import { SmartVideo } from "../components/SmartVideo";
 
 const ARTICLES = [
   {
-    tag: 'Business Automation',
-    title: 'Small Business Automation Ideas',
-    summary: 'Practical automation workflows that save hours and eliminate repetitive daily operations.',
-    href: 'https://brandmintai.io/small-business-automation-ideas/',
+    tag: "Business Automation",
+    title: "Small Business Automation Ideas",
+    summary:
+      "Practical automation workflows that save hours and eliminate repetitive daily operations.",
+    href: "https://brandmintai.io/small-business-automation-ideas/",
     icon: Zap,
   },
   {
-    tag: 'WhatsApp Systems',
-    title: 'WhatsApp Lead Follow-Up System',
-    summary: 'Respond faster, qualify enquiries automatically, and keep follow-ups consistent.',
-    href: 'https://brandmintai.io/whatsapp-lead-follow-up-system/',
+    tag: "WhatsApp Systems",
+    title: "WhatsApp Lead Follow-Up System",
+    summary:
+      "Respond faster, qualify enquiries automatically, and keep follow-ups consistent.",
+    href: "https://brandmintai.io/whatsapp-lead-follow-up-system/",
     icon: MessageSquare,
   },
   {
-    tag: 'Executive Guide',
-    title: 'AI Business Automation FAQ',
-    summary: 'Clear answers on AI pilots, human oversight, CRM sync, and measurable ROI.',
-    href: 'https://brandmintai.io/ai-business-faq/',
+    tag: "Executive Guide",
+    title: "AI Business Automation FAQ",
+    summary:
+      "Clear answers on AI pilots, human oversight, CRM sync, and measurable ROI.",
+    href: "https://brandmintai.io/ai-business-faq/",
     icon: HelpCircle,
   },
   {
-    tag: 'CRM Architecture',
-    title: 'Connect Website Leads to CRM',
-    summary: 'Route website and ad enquiries straight into your CRM and team WhatsApp.',
-    href: 'https://brandmintai.io/connect-website-leads-to-crm/',
+    tag: "CRM Architecture",
+    title: "Connect Website Leads to CRM",
+    summary:
+      "Route website and ad enquiries straight into your CRM and team WhatsApp.",
+    href: "https://brandmintai.io/connect-website-leads-to-crm/",
     icon: Database,
   },
 ];
@@ -67,49 +76,70 @@ export const BlogPage: React.FC = () => {
           </p>
         </div>
       </section>
-
-      {/* Balanced 2x2 Blog Playbooks Grid */}
-      <ScrollStageTransform>
-        <section className="py-10 px-4 max-w-5xl mx-auto w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 items-stretch">
-            {ARTICLES.map((art) => {
-              const Icon = art.icon;
-              return (
-                <ProTiltCard
-                  key={art.href}
-                  maxTilt={4}
-                  className="h-full rounded-2xl p-5 glass-card flex flex-col justify-between gap-4 text-left"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-xs pb-3 mb-3 border-b border-[#7265C2]/25">
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#312185]/80 border border-[#7265C2]/45 text-[#CCC7F2] font-semibold text-[11px]">
-                        {art.tag}
-                      </span>
-                      <Icon className="w-4 h-4 text-[#CCC7F2]" />
-                    </div>
-                    <h2 className="font-display text-lg font-bold text-white leading-snug">
-                      {art.title}
-                    </h2>
-                    <p className="text-xs text-[#CCC7F2]/80 mt-1.5 leading-relaxed">
-                      {art.summary}
-                    </p>
-                  </div>
-
-                  <a
-                    href={art.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2.5 px-4 rounded-full btn-aurora text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all relative z-20"
-                  >
-                    <span>Read Guide</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
-                </ProTiltCard>
-              );
-            })}
+      <div className="inner-content blog-content">
+        <section
+          className="inner-section featured-guide"
+          aria-labelledby="featured-guide-title"
+        >
+          <div className="inner-film">
+            <SmartVideo
+              src="/videos/clean-ai-dev-screen.mp4"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h2 id="featured-guide-title">
+              <a
+                href={ARTICLES[0].href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {ARTICLES[0].title}
+              </a>
+            </h2>
+            <p>{ARTICLES[0].summary}</p>
+            <a
+              className="inner-text-action"
+              href={ARTICLES[0].href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Read ${ARTICLES[0].title}`}
+            >
+              Read the guide <ArrowUpRight size={18} aria-hidden="true" />
+            </a>
           </div>
         </section>
-      </ScrollStageTransform>
+        <section
+          className="inner-section guide-library"
+          aria-labelledby="guides-title"
+        >
+          <h2 id="guides-title">
+            More from
+            <br />
+            <span className="font-editorial">the field.</span>
+          </h2>
+          <div>
+            {ARTICLES.slice(1).map((art) => (
+              <article className="guide-row" key={art.href}>
+                <p className="inner-meta">{art.tag}</p>
+                <div>
+                  <h3>
+                    <a
+                      href={art.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {art.title}
+                      <ArrowUpRight size={20} aria-hidden="true" />
+                    </a>
+                  </h3>
+                  <p>{art.summary}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

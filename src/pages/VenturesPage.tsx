@@ -1,39 +1,50 @@
-import React, { useState } from 'react';
-import { ArrowUpRight, Layers, Sparkles, ArrowRight, CheckCircle2, BookOpen } from 'lucide-react';
-import { ScrollStageTransform } from '../components/ScrollStageTransform';
-import { ProTiltCard } from '../components/ProTiltCard';
-import { SmartVideo } from '../components/SmartVideo';
+import React, { useState } from "react";
+import { ArrowUpRight, Sparkles, ArrowRight } from "lucide-react";
+import { SmartVideo } from "../components/SmartVideo";
 
 interface VenturesPageProps {
   onOpenBooking: () => void;
 }
 
 const WEAVE_FLOW = [
-  { step: '1', name: 'Signal', desc: 'Buyer demand' },
-  { step: '2', name: 'Visualize', desc: 'AI co-design' },
-  { step: '3', name: 'Match', desc: 'Smart factories' },
-  { step: '4', name: 'Fulfil', desc: 'Direct delivery' },
+  { step: "1", name: "Signal", desc: "Buyer demand" },
+  { step: "2", name: "Visualize", desc: "AI co-design" },
+  { step: "3", name: "Match", desc: "Smart factories" },
+  { step: "4", name: "Fulfil", desc: "Direct delivery" },
 ];
 
 const WEAVE_TRACKS = [
-  { code: 'Track 01', title: 'Community Commerce', desc: 'Connecting buyers, creators & verified suppliers.' },
-  { code: 'Track 02', title: 'Smart Manufacturing', desc: 'AI Visualizer → Spec Routing → Factory Fulfilment.' },
-  { code: 'Track 03', title: 'Education × JobMatrix', desc: 'Adaptive skills & industry placement pipelines.' },
+  {
+    code: "Track 01",
+    title: "Community Commerce",
+    desc: "Connecting buyers, creators & verified suppliers.",
+  },
+  {
+    code: "Track 02",
+    title: "Smart Manufacturing",
+    desc: "AI Visualizer → Spec Routing → Factory Fulfilment.",
+  },
+  {
+    code: "Track 03",
+    title: "Education × JobMatrix",
+    desc: "Adaptive skills & industry placement pipelines.",
+  },
 ];
 
 const IP_PORTFOLIO = [
-  'Community Commerce Engines',
-  'Role-Based Agent Frameworks',
-  'Omnichannel Pipeline Mesh',
-  'Executive Intelligence Suites',
-  'Campus Adaptive Learning IP',
-  'Manufacturing Spec Routers',
-  'AI Campus Builder Network',
+  "Community Commerce Engines",
+  "Role-Based Agent Frameworks",
+  "Omnichannel Pipeline Mesh",
+  "Executive Intelligence Suites",
+  "Campus Adaptive Learning IP",
+  "Manufacturing Spec Routers",
+  "AI Campus Builder Network",
 ];
 
-export const VenturesPage: React.FC<VenturesPageProps> = ({ onOpenBooking }) => {
+export const VenturesPage: React.FC<VenturesPageProps> = ({
+  onOpenBooking,
+}) => {
   const [weaveStep, setWeaveStep] = useState(0);
-  const [activeDivision, setActiveDivision] = useState<'now' | 'scale'>('scale');
 
   return (
     <div className="w-full pt-20 pb-8">
@@ -134,168 +145,105 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({ onOpenBooking }) => 
           </div>
         </div>
       </section>
-
-      {/* 2. Dual-Engine Model */}
-      <ScrollStageTransform>
-        <section className="py-10 px-4 max-w-5xl mx-auto w-full">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 mb-6 border-b border-[#7265C2]/25">
-            <div className="text-left">
-              <span className="text-[11px] font-semibold text-[#CCC7F2] uppercase tracking-wider block mb-1">
-                Dual-Engine Flywheel
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                Client Systems.{' '}
-                <span className="font-editorial text-3xl sm:text-[38px] text-aurora pr-1">Compounding Ventures.</span>
-              </h2>
-            </div>
-
-            <div className="inline-flex bg-[#120642] p-1 rounded-full border border-[#7265C2]/35 self-start">
-              <button
-                type="button"
-                onClick={() => setActiveDivision('now')}
-                aria-pressed={activeDivision === 'now'}
-                className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeDivision === 'now' ? 'btn-aurora text-white' : 'text-[#CCC7F2] hover:text-white'
-                }`}
-              >
-                Engine 1 &bull; Deployments
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveDivision('scale')}
-                aria-pressed={activeDivision === 'scale'}
-                className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeDivision === 'scale' ? 'btn-aurora text-white' : 'text-[#CCC7F2] hover:text-white'
-                }`}
-              >
-                Engine 2 &bull; Platforms
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 items-stretch">
-            <ProTiltCard
-              maxTilt={4}
-              onClick={() => setActiveDivision('now')}
-              className={`h-full p-5 sm:p-6 rounded-2xl transition-all cursor-pointer text-left flex flex-col justify-between gap-4 ${
-                activeDivision === 'now' ? 'glass-card-active' : 'glass-card'
-              }`}
-            >
-              <div>
-                <span className="text-[11px] text-[#CCC7F2] font-semibold block">Engine 01</span>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
-                  Applied Enterprise Deployments
-                </h3>
-                <p className="text-xs text-[#CCC7F2]/85 mt-1 leading-relaxed">
-                  Real-world operational deployments that solve live business friction and sharpen our architecture.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#7265C2]/25 text-xs font-medium text-white">
-                {['Live Revenue Flows', 'Domain Context', 'Rapid Validation', 'Governance Proof'].map((it) => (
-                  <div key={it} className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-[#CCC7F2]" />
-                    <span>{it}</span>
-                  </div>
-                ))}
-              </div>
-            </ProTiltCard>
-
-            <ProTiltCard
-              maxTilt={4}
-              onClick={() => setActiveDivision('scale')}
-              className={`h-full p-5 sm:p-6 rounded-2xl transition-all cursor-pointer text-left flex flex-col justify-between gap-4 ${
-                activeDivision === 'scale' ? 'glass-card-active' : 'glass-card'
-              }`}
-            >
-              <div>
-                <span className="text-[11px] text-[#CCC7F2] font-semibold block">Engine 02</span>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
-                  Platforms &amp; Venture IP
-                </h3>
-                <p className="text-xs text-[#CCC7F2]/85 mt-1 leading-relaxed">
-                  Multi-sided platforms, institutional learning networks, and compounding IP.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#7265C2]/25 text-xs font-medium text-white">
-                {['Quantum Weave™', 'JobMatrix', 'AI Campus', 'Proprietary IP'].map((it) => (
-                  <div key={it} className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 shrink-0 text-[#CCC7F2]" />
-                    <span>{it}</span>
-                  </div>
-                ))}
-              </div>
-            </ProTiltCard>
-          </div>
-        </section>
-      </ScrollStageTransform>
-
-      {/* 3. IP Portfolio + AI Campus */}
-      <ScrollStageTransform>
-        <section className="py-10 px-4 max-w-5xl mx-auto w-full">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-1.5 text-[11px] text-[#CCC7F2] font-semibold mb-1">
-              <Layers className="w-3.5 h-3.5 text-[#7265C2]" />
-              <span>Beyond Services</span>
-            </div>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
-              Ecosystem{' '}
-              <span className="font-editorial text-3xl sm:text-[38px] text-aurora pr-1">IP Portfolio.</span>
+      <div className="inner-content ventures-content">
+        <section
+          className="inner-section venture-engines"
+          aria-labelledby="engines-title"
+        >
+          <div className="inner-section-heading">
+            <h2 id="engines-title">
+              Client systems.
+              <br />
+              <span className="font-editorial">Compounding ventures.</span>
             </h2>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-stretch mb-8">
-            {IP_PORTFOLIO.map((item, idx) => (
-              <ProTiltCard
-                key={item}
-                maxTilt={3.5}
-                onClick={onOpenBooking}
-                className="h-full p-4 rounded-xl glass-card text-left flex items-center justify-between gap-2 cursor-pointer"
-              >
-                <div>
-                  <span className="text-[10px] text-[#7265C2] font-semibold block">0{idx + 1}</span>
-                  <h4 className="font-display text-sm font-bold text-white mt-0.5 leading-snug">{item}</h4>
-                </div>
-                <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-[#CCC7F2]" />
-              </ProTiltCard>
-            ))}
-
-            <button
-              type="button"
-              onClick={onOpenBooking}
-              className="h-full p-4 rounded-xl bg-[#312185]/45 hover:bg-[#312185]/70 border border-[#CCC7F2]/45 border-dashed text-left flex flex-col justify-center transition-colors cursor-pointer"
-            >
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#CCC7F2]">
-                <span>Venture Lab</span>
-                <ArrowUpRight className="w-3 h-3" />
-              </span>
-              <span className="font-display text-xs font-semibold text-white mt-0.5 leading-snug">
-                Co-build strategic AI platforms with us.
-              </span>
+          <div className="venture-engine-copy">
+            <article>
+              <h3>Applied enterprise deployments</h3>
+              <p>
+                Real-world operational deployments that solve live business
+                friction and sharpen our architecture.
+              </p>
+              <ul>
+                <li>Live revenue flows</li>
+                <li>Domain context</li>
+                <li>Rapid validation</li>
+                <li>Governance proof</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Platforms &amp; venture IP</h3>
+              <p>
+                Multi-sided platforms, institutional learning networks, and
+                compounding IP.
+              </p>
+              <ul>
+                <li>Quantum Weave™</li>
+                <li>JobMatrix</li>
+                <li>AI Campus</li>
+                <li>Proprietary IP</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <section
+          className="inner-section portfolio-section"
+          aria-labelledby="portfolio-title"
+        >
+          <div className="inner-section-heading">
+            <h2 id="portfolio-title">
+              Our ecosystem
+              <br />
+              <span className="font-editorial">of intellectual property.</span>
+            </h2>
+            <p>Co-build strategic AI platforms with us.</p>
+            <button className="inner-text-action" onClick={onOpenBooking}>
+              Talk to the venture lab{" "}
+              <ArrowUpRight size={18} aria-hidden="true" />
             </button>
           </div>
-
-          <div className="rounded-2xl p-5 sm:p-6 glass-frame flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-left">
-            <div className="space-y-0.5">
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#CCC7F2]">
-                <BookOpen className="w-3.5 h-3.5 text-[#CCC7F2]" />
-                <span>Ecosystem Publication</span>
-              </div>
-              <h3 className="font-display text-lg sm:text-xl font-bold text-white">
-                AI Campus — Insights for Builders &amp; Institutions
-              </h3>
-            </div>
+          <ul className="portfolio-list">
+            {IP_PORTFOLIO.map((item) => (
+              <li key={item}>
+                <button onClick={onOpenBooking} aria-label={`Discuss ${item}`}>
+                  {item}
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section
+          className="inner-section campus-feature"
+          aria-labelledby="campus-title"
+        >
+          <div className="inner-film">
+            <SmartVideo
+              src="/videos/hero-neural-globe.mp4"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h2 id="campus-title">
+              AI Campus.
+              <br />
+              <span className="font-editorial">Ideas for builders.</span>
+            </h2>
+            <p>
+              Insights for builders and institutions, across the BrandMint
+              ecosystem.
+            </p>
             <a
+              className="inner-text-action"
               href="https://hybridai.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2.5 rounded-full btn-aurora text-white text-xs font-semibold inline-flex items-center gap-1.5 shrink-0 self-start sm:self-auto transition-all"
             >
-              <span>Explore AI Campus</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              Explore AI Campus <ArrowUpRight size={18} aria-hidden="true" />
             </a>
           </div>
         </section>
-      </ScrollStageTransform>
+      </div>
     </div>
   );
 };

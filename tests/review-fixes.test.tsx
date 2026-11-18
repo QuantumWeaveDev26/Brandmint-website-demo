@@ -99,21 +99,13 @@ describe('review regressions', () => {
     expect(phone.checkValidity()).toBe(false);
   });
 
-  it('keeps the selected solution highlighted while reading', () => {
-    vi.useFakeTimers();
-    const saved = globalThis.IntersectionObserver;
-    globalThis.IntersectionObserver = class {
-      constructor(private callback: (entries: unknown[]) => void) {}
-      observe() { this.callback([{ isIntersecting: true, intersectionRatio: 1 }]); }
-      disconnect() {} unobserve() {} takeRecords() { return []; }
-    } as unknown as typeof IntersectionObserver;
-    try {
-      render(<SolutionsPage onOpenBooking={vi.fn()} />);
-      const stage = screen.getByRole('heading', { name: 'Enterprise AI Integration' }).closest('.glass-card')!;
-      fireEvent.click(stage);
-      act(() => { vi.advanceTimersByTime(5000); });
-      expect(stage.className).toContain('glass-card-active');
-    } finally { globalThis.IntersectionObserver = saved; }
+  it('carries the chosen solution into its WhatsApp conversation', () => {
+    render(<SolutionsPage onOpenBooking={vi.fn()} />);
+    const link = screen.getByRole('link', { name: 'Discuss Enterprise AI Integration on WhatsApp' });
+    const url = new URL(link.getAttribute('href')!);
+    expect(url.origin + url.pathname).toBe('https://wa.me/919972965677');
+    expect(url.searchParams.get('text')).toContain('Enterprise AI Integration');
+    expect(screen.getAllByRole('link', { name: /Discuss .* on WhatsApp/ })).toHaveLength(6);
   });
   it('opens scheduling directly from the unified support menu', () => {
     render(<FloatingSupportWidgets currentPath="/" onNavigate={vi.fn()} onOpenBooking={vi.fn()} cookieBannerVisible={false} />);
