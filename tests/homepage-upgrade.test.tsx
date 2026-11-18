@@ -4,8 +4,31 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { FigmaWeaveTransformation } from '../src/components/FigmaWeaveTransformation';
 import { FloatingSupportWidgets } from '../src/components/FloatingSupportWidgets';
 import { HeroWorkflow } from '../src/components/HeroWorkflow';
+import { WorkflowExample } from '../src/components/WorkflowExample';
 
 describe('homepage visitor journeys', () => {
+  it('lets visitors explore voice assistants and learning alongside automation', () => {
+    render(<HeroWorkflow />);
+    fireEvent.click(screen.getByRole('tab', { name: 'Voice assistants' }));
+    expect(screen.getByRole('tab', { name: 'Voice assistants' }).getAttribute('aria-selected')).toBe('true');
+    expect(screen.getByText(/a caller asks for help/i)).toBeTruthy();
+    fireEvent.click(screen.getByRole('tab', { name: 'Learn AI' }));
+    expect(screen.getByRole('link', { name: /explore learning opportunities/i }).getAttribute('href')).toBe('/academy');
+  });
+
+  it('animates visible workflow steps and holds a step selected by the visitor', () => {
+    vi.useFakeTimers();
+    vi.spyOn(globalThis, 'IntersectionObserver').mockImplementation(function(callback: IntersectionObserverCallback) {
+      return { observe() { callback([{ isIntersecting: true }] as IntersectionObserverEntry[], {} as IntersectionObserver); }, disconnect() {} } as unknown as IntersectionObserver;
+    } as unknown as typeof IntersectionObserver);
+    render(<WorkflowExample onOpenBooking={vi.fn()} />);
+    act(() => { vi.advanceTimersByTime(2100); });
+    expect(screen.getByRole('button', { name: /02 context matched/i }).getAttribute('aria-pressed')).toBe('true');
+    const step = screen.getByRole('button', { name: /03 pipeline synced/i });
+    fireEvent.click(step);
+    act(() => { vi.advanceTimersByTime(6000); });
+    expect(step.getAttribute('aria-pressed')).toBe('true');
+  });
   it('lets visitors compare services by keyboard without capturing page scroll', () => {
     const book = vi.fn();
     render(<FigmaWeaveTransformation onOpenBooking={book} />);

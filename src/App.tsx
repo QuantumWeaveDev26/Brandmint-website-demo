@@ -83,19 +83,38 @@ export const App: React.FC = () => {
   const lenisRef = useRef<Lenis | null>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
 
-  // Ultra-snappy, zero-lag Lenis 1.3 smooth scroll engine
+  // One scroll clock for wheel input, anchor links, and section navigation.
   useEffect(() => {
     if (paused) return;
     const engine = new Lenis({
-      lerp: 0.16,
+      duration: 1.15,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 1.05,
-      touchMultiplier: 1.4,
+      wheelMultiplier: 1,
+      touchMultiplier: 1,
       autoRaf: true,
     });
     lenisRef.current = engine;
     window.__lenis = engine;
+    const onAnchorClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const anchor = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null;
+      if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
+      const url = new URL(anchor.href, window.location.href);
+      if (!url.hash || url.origin !== window.location.origin || url.pathname !== window.location.pathname) return;
+      let id: string;
+      try { id = decodeURIComponent(url.hash.slice(1)); } catch { return; }
+      const target = document.getElementById(id);
+      if (!target) return;
+      event.preventDefault();
+      engine.scrollTo(target, { duration: 1.15, onComplete: () => {
+        window.history.replaceState(window.history.state, '', url.hash);
+        if (target.hasAttribute('tabindex')) target.focus({ preventScroll: true });
+      } });
+    };
+    document.addEventListener('click', onAnchorClick);
     return () => {
+      document.removeEventListener('click', onAnchorClick);
       engine.destroy();
       lenisRef.current = null;
       window.__lenis = null;

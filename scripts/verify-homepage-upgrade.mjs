@@ -30,7 +30,7 @@ try {
       viewport: innerWidth,
       documentWidth: document.documentElement.scrollWidth,
       heroWidth: document.querySelector('h1').getBoundingClientRect().width,
-      tabCount: document.querySelectorAll('[role="tab"]').length,
+      tabCount: document.querySelectorAll('.solution-tabs [role="tab"]').length,
       videoSources: [...document.querySelectorAll('video')].filter(v => v.getAttribute('src')).length,
       clippedControls: [...document.querySelectorAll('.hero-actions a, .solution-tabs button')].filter(el => {
         const bounds = el.getBoundingClientRect();
@@ -70,7 +70,7 @@ try {
   await page.setViewport({ width: 390, height: 844 });
   await page.locator('#tab-ai-integration').click();
   await page.keyboard.press('ArrowRight');
-  assert.equal(await page.$eval('[aria-selected="true"]', el => el.textContent), 'AI Workforce');
+  assert.equal(await page.$eval('.solution-tabs [aria-selected="true"]', el => el.textContent), 'AI Workforce');
   await page.locator('.solution-copy .home-primary').click();
   await page.waitForSelector('dialog[open]');
   assert.ok((await page.$eval('dialog', el => el.textContent)).includes('AI Workforce Multiplier'));
@@ -98,6 +98,54 @@ try {
   await page.setViewport({ width: 1440, height: 960 });
   await page.goto('http://127.0.0.1:5173/', { waitUntil: 'networkidle2' });
   await page.evaluate(() => document.fonts.ready);
+  assert.equal(await page.evaluate(() => Boolean(window.__lenis)), true, 'Lenis must run for normal motion preferences');
+  await page.mouse.move(450, 400);
+  await page.mouse.wheel({ deltaY: 520 });
+  const wheelSamples = await page.evaluate(async () => {
+    const samples = [];
+    for (let frame = 0; frame < 36; frame++) {
+      await new Promise(requestAnimationFrame);
+      samples.push(scrollY);
+    }
+    return samples;
+  });
+  assert.ok(new Set(wheelSamples.map(Math.round)).size > 8, 'Wheel scrolling should interpolate across multiple frames');
+  await page.evaluate(() => window.__lenis.scrollTo(0, { immediate: true }));
+  await page.locator('a[href="#solutions"]').click();
+  await page.waitForFunction(() => Math.abs(document.querySelector('#solutions').getBoundingClientRect().top - 100) < 3);
+  await page.locator('#tab-education-institutions').click();
+  await page.mouse.wheel({ deltaY: -400 });
+  await page.waitForFunction(() => !window.__lenis.isScrolling);
+  await page.waitForFunction(() => {
+    const track = document.querySelector('.solution-scroll-track').getBoundingClientRect();
+    const travel = track.height - document.querySelector('.solution-scroll-stage').offsetHeight;
+    const expected = Math.min(5, Math.floor(Math.max(0, Math.min(1, (82 - track.top) / travel)) * 6));
+    return Number(document.querySelector('#solution-panel').dataset.serviceIndex) === expected;
+  });
+  await page.evaluate(() => window.__lenis.scrollTo(0, { immediate: true }));
+  for (const id of ['agents', 'voice', 'learning', 'whatsapp']) {
+    await page.locator(`#example-${id}`).click();
+    await page.waitForFunction(selected => document.querySelector('.hero-workflow').dataset.example === selected, {}, id);
+    await page.waitForFunction(() => document.querySelector('.hero-example-tabs [aria-selected="true"]').getAnimations().every(animation => animation.playState === 'finished'));
+    await page.waitForFunction(() => document.querySelector('.workflow-message').getAnimations().every(animation => animation.playState === 'finished'));
+    await page.screenshot({ path: `${out}/hero-example-${id}.png` });
+  }
+  await page.evaluate(() => {
+    const node = document.querySelector('#workflow-example');
+    window.__lenis.scrollTo(node, { immediate: true, offset: -100 });
+  });
+  const startStep = await page.$eval('.workflow-node[aria-pressed="true"]', el => el.textContent);
+  await page.waitForFunction(previous => document.querySelector('.workflow-node[aria-pressed="true"]').textContent !== previous, {}, startStep);
+  await page.screenshot({ path: `${out}/workflow-nodes-animated.png` });
+  await page.evaluate(() => window.__lenis.scrollTo(document.querySelector('#velocity'), { immediate: true, offset: -100 }));
+  await page.screenshot({ path: `${out}/growth-scan-desktop.png` });
+  await page.locator('.scan-presets button:last-child').click();
+  assert.equal(await page.$eval('.scan-blueprint', el => el.dataset.blueprint), '2');
+  await page.setViewport({ width: 390, height: 844 });
+  await page.evaluate(() => window.__lenis.scrollTo(document.querySelector('#velocity'), { immediate: true, offset: -100 }));
+  await page.screenshot({ path: `${out}/growth-scan-mobile.png` });
+  await page.setViewport({ width: 1440, height: 960 });
+  await page.evaluate(() => window.__lenis.scrollTo(0, { immediate: true }));
   const phases = new Set();
   for (let phase = 0; phase < 4; phase++) {
     await page.waitForFunction(i => document.querySelector('.hero-workflow').dataset.phase === String(i), {}, phase);
@@ -118,7 +166,7 @@ try {
   await page.evaluate(() => document.querySelector('#transformation').scrollIntoView({ block: 'start' }));
   await page.screenshot({ path: `${out}/comparison-labels.png` });
   assert.deepEqual(errors, [], 'No uncaught browser errors');
-  await fs.writeFile(`${out}/verification.json`, JSON.stringify({ results, errors, checks: ['service keyboard navigation', 'pilot dialog context and Escape', 'support open and Escape', 'FAQ disclosure', 'reduced motion', 'nine viewport combinations', 'normal video playback source', 'all eight routes render', 'forward and reverse scroll selection', 'four hero workflow phases', 'comparison label colors', 'removed motion controls and charter ornament'] }, null, 2));
+  await fs.writeFile(`${out}/verification.json`, JSON.stringify({ results, errors, lenisDistinctScrollFrames: new Set(wheelSamples.map(Math.round)).size, checks: ['service keyboard navigation', 'pilot dialog context and Escape', 'support open and Escape', 'FAQ disclosure', 'reduced motion', 'nine viewport combinations', 'normal video playback source', 'all eight routes render', 'forward and reverse scroll selection', 'four hero workflow phases', 'comparison label colors', 'removed motion controls and charter ornament', 'Lenis wheel interpolation', 'smooth anchor navigation', 'interrupted tab navigation', 'AI agent, voice, and learning examples', 'workflow node autoplay', 'redesigned blueprint presets'] }, null, 2));
   console.log(JSON.stringify({ results, errors, result: 'All browser checks passed' }, null, 2));
 } catch (error) {
   console.error(await page.evaluate(() => ({

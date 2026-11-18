@@ -1,6 +1,8 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Sparkles, Network, Users, Cpu, Briefcase, GraduationCap } from 'lucide-react';
 import { SmartVideo } from './SmartVideo';
+import { motion } from 'framer-motion';
+import { useMotionSettings } from './MotionSettings';
 
 interface ServiceDefinition {
   id: string;
@@ -145,6 +147,10 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
   const trackRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [pinned, setPinned] = useState(true);
+  const { paused } = useMotionSettings();
+  const manualTargetRef = useRef<number | null>(null);
+  const manualTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const syncScrollRef = useRef<() => void>(() => {});
   const service = SERVICES[activeIdx];
 
   useLayoutEffect(() => {
@@ -161,6 +167,7 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
   useEffect(() => {
     let frame = 0;
     const sync = () => {
+      if (manualTargetRef.current !== null) return;
       const track = trackRef.current;
       const stage = stageRef.current;
       if (!track || !stage) return;
@@ -174,13 +181,28 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(sync);
     };
+    syncScrollRef.current = sync;
+    const onUserScroll = (event: Event) => {
+      if (event instanceof KeyboardEvent && (event.defaultPrevented || !['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key))) return;
+      if (manualTimerRef.current) clearTimeout(manualTimerRef.current);
+      manualTargetRef.current = null;
+      sync();
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('wheel', onUserScroll, { passive: true });
+    window.addEventListener('touchstart', onUserScroll, { passive: true });
+    window.addEventListener('keydown', onUserScroll);
     sync();
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
+      window.removeEventListener('wheel', onUserScroll);
+      window.removeEventListener('touchstart', onUserScroll);
+      window.removeEventListener('keydown', onUserScroll);
+      syncScrollRef.current = () => {};
+      if (manualTimerRef.current) clearTimeout(manualTimerRef.current);
     };
   }, []);
 
@@ -193,8 +215,17 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
     const travel = bounds.height - stage.offsetHeight;
     if (travel <= 1) return;
     const target = window.scrollY + bounds.top - 82 + (index + 0.5) / SERVICES.length * travel;
-    if (window.__lenis) window.__lenis.scrollTo(target, { immediate: true });
-    else window.scrollTo({ top: target, behavior: 'instant' });
+    if (paused && !window.__lenis) {
+      window.scrollTo({ top: target, behavior: 'instant' });
+      syncScrollRef.current();
+      return;
+    }
+    manualTargetRef.current = index;
+    if (manualTimerRef.current) clearTimeout(manualTimerRef.current);
+    const release = () => { manualTargetRef.current = null; syncScrollRef.current(); };
+    manualTimerRef.current = setTimeout(release, 1200);
+    if (window.__lenis) window.__lenis.scrollTo(target, { duration: 0.9, onComplete: release });
+    else window.scrollTo({ top: target, behavior: paused ? 'instant' : 'smooth' });
   };
 
   const selectWithKeyboard = (event: React.KeyboardEvent, index: number) => {
@@ -225,7 +256,9 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
             aria-controls="solution-panel" tabIndex={index === activeIdx ? 0 : -1}
             ref={element => { tabs.current[index] = element; }}
             onClick={() => selectService(index)} onKeyDown={event => selectWithKeyboard(event, index)}>
-            <Icon size={18} aria-hidden="true" /><span>{item.shortTitle}</span>
+            {index === activeIdx && <motion.span className="solution-tab-indicator" layoutId="solution-tab-indicator"
+              transition={{ duration: paused ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }} aria-hidden="true" />}
+            <Icon size={18} aria-hidden="true" /><span className="solution-tab-label">{item.shortTitle}</span>
           </button>;
         })}
       </div>
@@ -245,8 +278,10 @@ export const FigmaWeaveTransformation: React.FC<FigmaWeaveTransformationProps> =
           </a>
         </div>
         <div className="solution-media">
-          <SmartVideo key={service.id} src={service.videoUrl} className="h-full w-full object-cover" />
-          <span className="solution-caption">{service.hudTag}</span>
+          {SERVICES.map((item, index) => <div key={item.id} className="solution-media-layer" data-active={index === activeIdx} aria-hidden="true">
+            <SmartVideo src={item.videoUrl} paused={paused || index !== activeIdx} className="h-full w-full object-cover" />
+            <span className="solution-caption">{item.hudTag}</span>
+          </div>)}
         </div>
       </div>
       </div>

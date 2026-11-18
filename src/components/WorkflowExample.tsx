@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, MessageCircle, Sparkles, Database, UserCheck } from 'lucide-react';
 import { SmartVideo } from './SmartVideo';
+import { useMotionSettings } from './MotionSettings';
 
 const FLOW_NODES = [
   { code: '01', label: 'Signal Captured', sub: 'Web & Inbound', icon: MessageCircle },
@@ -11,10 +12,31 @@ const FLOW_NODES = [
 
 export function WorkflowExample({ onOpenBooking }: { onOpenBooking: () => void }) {
   const [activeStep, setActiveStep] = useState(0);
+  const [near, setNear] = useState(false);
+  const [pageVisible, setPageVisible] = useState(() => !document.hidden);
+  const [manual, setManual] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const { paused } = useMotionSettings();
+  const running = near && pageVisible && !paused && !manual;
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => setNear(entry.isIntersecting), { threshold: 0.2 });
+    observer.observe(node);
+    const onVisibility = () => setPageVisible(!document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => { observer.disconnect(); document.removeEventListener('visibilitychange', onVisibility); };
+  }, []);
+  useEffect(() => {
+    if (!running) return;
+    const timer = window.setInterval(() => setActiveStep(previous => (previous + 1) % FLOW_NODES.length), 2000);
+    return () => clearInterval(timer);
+  }, [running]);
 
   return (
     <section
       id="workflow-example"
+      ref={sectionRef}
       className="max-w-5xl mx-auto w-full px-4 py-10 sm:py-14"
     >
       <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
@@ -55,8 +77,10 @@ export function WorkflowExample({ onOpenBooking }: { onOpenBooking: () => void }
                   type="button"
                   key={node.code}
                   aria-pressed={isActive}
-                  onClick={() => setActiveStep(idx)}
-                  className={`relative p-3 rounded-xl border transition-all duration-200 cursor-pointer overflow-hidden ${
+                  data-active={isActive}
+                  data-running={running}
+                  onClick={() => { setActiveStep(idx); setManual(true); }}
+                  className={`workflow-node relative p-3 rounded-xl border transition-all duration-500 cursor-pointer overflow-hidden text-left ${
                     isActive
                       ? 'bg-[#312185]/88 border-[#CCC7F2]/65 -translate-y-0.5 shadow-[0_10px_24px_rgba(114,101,194,0.36)]'
                       : 'bg-[#120642]/65 border-[#7265C2]/30 hover:border-[#7265C2]/60'
@@ -73,6 +97,7 @@ export function WorkflowExample({ onOpenBooking }: { onOpenBooking: () => void }
                   </div>
                   <div className="font-display text-xs sm:text-sm font-bold text-white leading-snug">{node.label}</div>
                   <div className="text-[11px] text-[#CCC7F2]/75 mt-0.5">{node.sub}</div>
+                  {isActive && <span key={activeStep} className="workflow-node-progress" aria-hidden="true" />}
                 </button>
               );
             })}

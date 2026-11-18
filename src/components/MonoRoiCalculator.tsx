@@ -1,166 +1,49 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Calculator } from 'lucide-react';
-import { ProTiltCard } from './ProTiltCard';
+import { ArrowUpRight, ArrowRight, MessageCircle, Database, UserCheck } from 'lucide-react';
 
-interface MonoRoiCalculatorProps {
-  onOpenBooking: () => void;
-}
-
-const PRESET_TIERS = [
-  { label: 'Growth Team', val: 300 },
-  { label: 'Mid-Market', val: 900 },
-  { label: 'Institution', val: 2000 },
-  { label: 'Enterprise', val: 4000 },
+interface MonoRoiCalculatorProps { onOpenBooking: () => void }
+const PRESETS = [
+  { label: 'Growth Team', value: 300 },
+  { label: 'Mid-Market', value: 900 },
+  { label: 'Institution', value: 2000 },
+  { label: 'Enterprise', value: 4000 },
 ];
+const BLUEPRINTS = [
+  { name: 'A focused AI pilot.', description: 'Start with one enquiry channel and one clear handoff. Give your team a small, useful workflow to evaluate.', scope: 'One workflow. A clear review point.', steps: ['Capture the enquiry', 'Prepare a contextual reply', 'Hand over for review'] },
+  { name: 'A connected customer journey.', description: 'Bring your CRM, customer conversations, and team handoffs into one connected workflow.', scope: 'Connected CRM + AI roles', steps: ['Capture across your channels', 'Keep the CRM in context', 'Brief the right teammate'] },
+  { name: 'A coordinated AI system.', description: 'Explore connected workflows across teams, with shared context, routing rules, and human review.', scope: 'Multiple teams. Shared context.', steps: ['Unify incoming enquiries', 'Route by context and team', 'Review exceptions together'] },
+];
+const ICONS = [MessageCircle, Database, UserCheck];
 
 export const MonoRoiCalculator: React.FC<MonoRoiCalculatorProps> = ({ onOpenBooking }) => {
   const [inquiries, setInquiries] = useState(900);
-
-  const recommendedArchitecture =
-    inquiries < 700
-      ? 'Focused AI Pilot'
-      : inquiries < 1800
-      ? 'Connected CRM + AI Roles'
-      : 'Multi-Agent Enterprise Mesh';
-
-  const activeAssistants =
-    inquiries < 700 ? '2 AI Roles' : inquiries < 1800 ? '4 AI Roles' : '6+ AI Roles';
-
-  const handoffMode =
-    inquiries < 700 ? 'Instant Triage' : inquiries < 1800 ? 'Auto-Routing + Briefs' : '24/7 Omnichannel Command';
-
-  return (
-    <section id="velocity" className="relative py-10 sm:py-14 px-4 max-w-4xl mx-auto w-full z-10 select-none">
-      <div className="text-center mb-6">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#7265C2]/45 bg-[#160952]/80 text-xs font-medium text-[#CCC7F2] mb-2.5">
-          <Calculator className="w-3.5 h-3.5 text-[#CCC7F2]" />
-          <span>Quantum Growth Scan™</span>
-        </div>
-        <h2 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-white">
-          Size Your AI{' '}
-          <span className="font-editorial text-3xl sm:text-[46px] text-aurora pr-1">System.</span>
-        </h2>
-        <p className="mt-3 text-sm leading-relaxed text-[#CCC7F2] max-w-xl mx-auto">Explore an illustrative starting point for enquiry handling. These suggestions are not a quote or a guarantee; your tools, team, and workflow determine the final scope.</p>
+  const level = inquiries < 700 ? 0 : inquiries < 1800 ? 1 : 2;
+  const blueprint = BLUEPRINTS[level];
+  const fill = (inquiries - 100) / 4900 * 100;
+  return <section id="velocity" className="section-shell growth-scan" aria-labelledby="scan-title">
+    <div className="section-intro">
+      <h2 id="scan-title">Find your AI<br /><span className="font-editorial">starting point.</span></h2>
+      <p>A little context goes a long way. Explore a starting point for your team, then shape the details together.</p>
+    </div>
+    <div className="scan-workbench">
+      <div className="scan-controls">
+        <div className="scan-volume-heading"><label htmlFor="enquiry-volume">Monthly customer enquiries</label><span>Quantum Growth Scan™</span></div>
+        <div className="scan-volume"><output htmlFor="enquiry-volume">{inquiries.toLocaleString()}</output><span>enquiries / month</span></div>
+        <input id="enquiry-volume" aria-label="Monthly customer enquiries" type="range" min="100" max="5000" step="100"
+          value={inquiries} onChange={event => setInquiries(Number(event.target.value))}
+          style={{ '--scan-fill': `${fill}%` } as React.CSSProperties} />
+        <div className="scan-range-labels" aria-hidden="true"><span>100</span><span>5,000</span></div>
+        <div className="scan-presets" aria-label="Enquiry volume presets">{PRESETS.map(preset => <button type="button" key={preset.label}
+          aria-pressed={inquiries === preset.value} onClick={() => setInquiries(preset.value)}>{preset.label}</button>)}</div>
+        <p className="scan-controls-note">Choose an approximate volume. We’ll discuss your tools, team, and review needs before defining the scope.</p>
       </div>
-
-      <ProTiltCard maxTilt={3} className="rounded-2xl overflow-hidden glass-frame">
-        <div className="p-5 sm:p-6 border-b border-[#7265C2]/25 relative z-20">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <span className="text-xs sm:text-sm text-[#CCC7F2] font-semibold">
-              Monthly Enquiries
-            </span>
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl sm:text-3xl font-display font-bold text-aurora tabular-nums">
-                {inquiries.toLocaleString()}
-              </span>
-              <span className="text-xs text-[#CCC7F2]/75 font-medium">/ mo</span>
-            </div>
-          </div>
-
-          <input
-            aria-label="Monthly customer enquiries"
-            type="range"
-            min="100"
-            max="5000"
-            step="100"
-            value={inquiries}
-            onChange={(e) => setInquiries(Number(e.target.value))}
-            className="w-full h-2 bg-[#0A0224] rounded-full appearance-none cursor-pointer accent-[#7265C2] border border-[#7265C2]/30"
-          />
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3.5">
-            {PRESET_TIERS.map((tier) => {
-              const active = inquiries === tier.val;
-              return (
-                <button
-                  type="button"
-                  key={tier.label}
-                  aria-pressed={active}
-                  onClick={() => setInquiries(tier.val)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
-                    active
-                      ? 'btn-aurora text-white border-transparent'
-                      : 'bg-[#120642]/85 text-[#CCC7F2] border-[#7265C2]/30 hover:border-[#CCC7F2]/60 hover:text-white'
-                  }`}
-                >
-                  {tier.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#7265C2]/25">
-          <div className="p-4 sm:p-5 text-left">
-            <span className="text-[11px] text-[#CCC7F2]/75 block mb-0.5 font-medium">
-              Recommended Blueprint
-            </span>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={recommendedArchitecture}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.18 }}
-                className="text-base sm:text-lg font-display font-bold text-white"
-              >
-                {recommendedArchitecture}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="p-4 sm:p-5 text-left glass-card-active">
-            <span className="text-[11px] text-[#CCC7F2] block mb-0.5 font-medium">
-              Workforce Allocation
-            </span>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeAssistants}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.18 }}
-                className="text-base sm:text-lg font-display font-bold text-white"
-              >
-                {activeAssistants}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="p-4 sm:p-5 text-left">
-            <span className="text-[11px] text-[#CCC7F2]/75 block mb-0.5 font-medium">
-              Routing Mode
-            </span>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={handoffMode}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.18 }}
-                className="text-base sm:text-lg font-display font-bold text-white"
-              >
-                {handoffMode}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        <div className="px-5 sm:px-6 py-3.5 border-t border-[#7265C2]/25 bg-[#0E0433]/90 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-20">
-          <span className="text-xs text-[#CCC7F2] font-medium text-center sm:text-left">
-            Discuss a roadmap built around your workflow
-          </span>
-          <button
-            type="button"
-            onClick={onOpenBooking}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-full btn-aurora text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-          >
-            <span>Get Quantum Growth Scan™</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </ProTiltCard>
-    </section>
-  );
+      <div className="scan-blueprint" aria-labelledby="blueprint-title" data-blueprint={level}>
+        <span className="scan-result-label">Your illustrative starting point <ArrowUpRight size={18} aria-hidden="true" /></span>
+        <div className="scan-result-copy" key={level}><h3 id="blueprint-title">{blueprint.name}</h3><p>{blueprint.description}</p></div>
+        <ol className="scan-route">{blueprint.steps.map((step, index) => { const Icon = ICONS[index]; return <li key={index}><Icon size={17} aria-hidden="true" /><span>{step}</span>{index < 2 && <ArrowRight size={14} aria-hidden="true" />}</li>; })}</ol>
+        <div className="scan-result-footer"><span>{blueprint.scope}</span><button type="button" onClick={onOpenBooking}>Discuss this blueprint <ArrowUpRight size={17} aria-hidden="true" /></button></div>
+      </div>
+    </div>
+    <p className="scan-disclaimer">Illustrative guidance, not a quote or a guarantee. The final architecture depends on your actual workflow and integration requirements.</p>
+  </section>;
 };

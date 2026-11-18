@@ -24,7 +24,8 @@ export const MonoScrollHero: React.FC<MonoScrollHeroProps> = ({ onNavigate }) =>
     <div className="hero-layout">
       <div className="hero-copy">
         <h1>Less busywork.<br /><span className="font-editorial">More business.</span></h1>
-        <p className="hero-description">AI assistants, WhatsApp automation, and connected CRM workflows. Built around your business, so your people can focus on the work that matters.</p>
+        <p className="hero-description">AI agents, voice assistants, WhatsApp automation, and connected CRM workflows. Built around your business, so your people can focus on the work that matters.</p>
+        <p className="hero-learning-note">Want to build your own skills? Explore practical AI learning through <a href="/academy">BrandMint Academy <ArrowUpRight size={13} aria-hidden="true" /></a>.</p>
         <div className="hero-actions">
           <a className="home-primary" href="https://calendly.com/team-brandmint/30min" target="_blank" rel="noopener noreferrer">
             Book a 30-min call <ArrowUpRight size={18} aria-hidden="true" />
