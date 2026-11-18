@@ -11,7 +11,6 @@ import { useMotionSettings } from './components/MotionSettings';
 import { FigmaWeaveTransformation } from './components/FigmaWeaveTransformation';
 import { MonoSplitTransformation } from './components/MonoSplitTransformation';
 import { MonoWhatsAppSimulator } from './components/MonoWhatsAppSimulator';
-import { HomePrinciplesStack } from './components/HomePrinciplesStack';
 import { MonoRoiCalculator } from './components/MonoRoiCalculator';
 import { MonoFooter } from './components/MonoFooter';
 import { MonoBookingModal } from './components/MonoBookingModal';
@@ -234,9 +233,6 @@ export const App: React.FC = () => {
             </ScrollStageTransform>
             <ScrollStageTransform>
               <MonoSplitTransformation />
-            </ScrollStageTransform>
-            <ScrollStageTransform>
-              <HomePrinciplesStack />
             </ScrollStageTransform>
             <ScrollStageTransform>
               <MonoRoiCalculator onOpenBooking={() => openPilot()} />

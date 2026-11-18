@@ -15,14 +15,13 @@ try {
   for (const [width, height] of sizes) {
     await page.setViewport({ width, height });
     await page.evaluate(() => document.fonts.ready);
-    for (const id of ['workflow-example', 'principles', 'velocity']) {
+    for (const id of ['workflow-example', 'velocity']) {
       await page.evaluate(id => { const el = document.getElementById(id); window.__lenis?.scrollTo(el, { immediate: true, offset: -100 }); if (!window.__lenis) el.scrollIntoView(); }, id);
       await page.waitForFunction(() => [...document.querySelectorAll('#workflow-example button,#velocity button,#velocity input')].every(node => node.getBoundingClientRect().height >= 44));
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${id} overflows at ${width}`);
       await (await page.$(`#${id}`)).screenshot({ path: `${out}/${id}-${width}.png` });
     }
-    assert.equal(await page.$$eval('#principles li', nodes => nodes.length), 7);
-    assert.equal(await page.$$eval('#principles button', nodes => nodes.length), 0, 'Charter should be readable content, not inert controls');
+    assert.equal(await page.$('#principles'), null, 'Removed charter should not render');
     await page.locator('.scan-presets button:first-child').click();
     assert.equal(await page.$eval('.scan-blueprint', node => node.dataset.blueprint), '0');
     await page.locator('.scan-presets button:last-child').click();
