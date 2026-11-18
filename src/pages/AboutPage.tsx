@@ -162,11 +162,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenBooking }) => {
             </h2>
             <p>Explore what we build.</p>
           </div>
-          <div className="division-cinema">
-            <SmartVideo
-              src="/videos/rel-systems-team.mp4"
-              className="w-full h-full object-cover"
-            />
+          <div className="division-cinema division-links-only">
             <div className="division-destinations">
               {DIVISIONS.map((division, index) => {
                 const Icon = division.icon;

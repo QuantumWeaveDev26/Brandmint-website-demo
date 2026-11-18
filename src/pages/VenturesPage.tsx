@@ -160,10 +160,6 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({
           </div>
           <div className="venture-visual-pair">
             <a href="/solutions" className="venture-film-link">
-              <SmartVideo
-                src="/videos/rel-automation-ops.mp4"
-                className="w-full h-full object-cover"
-              />
               <div>
                 <h3>Enterprise deployments</h3>
                 <span>AI for real operational work</span>
@@ -176,10 +172,6 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({
               rel="noopener noreferrer"
               className="venture-film-link"
             >
-              <SmartVideo
-                src="/videos/v11-tech-47051.mp4"
-                className="w-full h-full object-cover"
-              />
               <div>
                 <h3>Platforms &amp; venture IP</h3>
                 <span>Quantum Weave™ &amp; our ecosystem</span>
@@ -219,12 +211,6 @@ export const VenturesPage: React.FC<VenturesPageProps> = ({
           className="inner-section campus-feature"
           aria-labelledby="campus-title"
         >
-          <div className="inner-film">
-            <SmartVideo
-              src="/videos/hero-neural-globe.mp4"
-              className="w-full h-full object-cover"
-            />
-          </div>
           <div>
             <h2 id="campus-title">
               AI Campus.

@@ -994,3 +994,26 @@
 #services-title {
   scroll-margin-top: 110px;
 }
+
+/* Keep marked inner-page destinations compact after removing their videos. */
+.inner-content .division-links-only { min-height:0; background:transparent; overflow:visible; border-radius:0; }
+.inner-content .division-links-only::after { display:none; }
+.inner-content .division-links-only .division-destinations { position:static; padding:0; gap:24px; }
+.inner-content .division-links-only .division-destinations a { padding:24px; min-height:170px; background:#1b1033; border:0; border-radius:12px; }
+.ventures-content .venture-film-link { height:auto; min-height:190px; background:#1b1033; }
+.ventures-content .venture-film-link > div { position:static; padding:28px; background:none; min-height:190px; align-content:space-between; }
+.ventures-content .campus-feature { display:block; }
+.ventures-content .campus-feature > div { max-width:760px; }
+.academy-content .programme-card, .academy-content .programme-card:last-child { display:flex; min-height:215px; }
+.blog-content .featured-guide { display:block; }
+.blog-content .featured-guide > div { max-width:820px; }
+.blog-content .featured-guide h2 { max-width:22ch; }
+.blog-content .visual-guide-card { border-radius:12px; background:#1b1033; }
+.blog-content .visual-guide-card > a { padding:24px; min-height:190px; }
+.blog-content .guide-card-copy { padding:0; }
+@media (max-width:767px) {
+  .inner-content .division-links-only .division-destinations { gap:12px; }
+  .inner-content .division-links-only .division-destinations a { padding:18px; min-height:150px; }
+  .ventures-content .venture-film-link, .ventures-content .venture-film-link > div { min-height:170px; }
+  .academy-content .programme-card, .academy-content .programme-card:last-child { min-height:200px; }
+}

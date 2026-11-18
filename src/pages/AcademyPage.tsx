@@ -57,13 +57,6 @@ const PROGRAMS = [
   },
 ];
 
-const PROGRAMME_MEDIA = [
-  "/videos/clean-marketing-laptop.mp4",
-  "/videos/04-fullstack-code.mp4",
-  "/videos/rel-systems-team.mp4",
-  "/videos/02-ai-agent-sphere.mp4",
-  "/videos/05-ai-cinema-earth.mp4",
-];
 const PROGRAMME_COPY = [
   "Campaigns. Copy. Automation.",
   "Build connected AI apps.",
@@ -127,12 +120,6 @@ export const AcademyPage: React.FC<AcademyPageProps> = ({ onOpenBooking }) => {
                 rel="noopener noreferrer"
                 aria-label={`Explore ${prog.title}`}
               >
-                <div className="programme-art">
-                  <SmartVideo
-                    src={PROGRAMME_MEDIA[index]}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
                 <div className="programme-card-copy">
                   <h3>{prog.title}</h3>
                   <p>{PROGRAMME_COPY[index]}</p>
