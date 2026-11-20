@@ -7,8 +7,8 @@ import { HeroTransformation } from './HeroTransformation';
 export function HeroWorkflow() {
   const { paused } = useMotionSettings();
   const ref = useRef<HTMLDivElement | null>(null);
-  const [step, setStep] = useState(0);
-  const [exampleIndex, setExampleIndex] = useState(0);
+  const [{ step, exampleIndex }, setPlayback] = useState({ step: 0, exampleIndex: 0 });
+  const [interacting, setInteracting] = useState(false);
   const exampleTabs = useRef<(HTMLButtonElement | null)[]>([]);
   const example = HERO_EXAMPLES[exampleIndex];
   const [near, setNear] = useState(false);
@@ -23,16 +23,19 @@ export function HeroWorkflow() {
     return () => { observer.disconnect(); document.removeEventListener('visibilitychange', onVisibility); };
   }, []);
   useEffect(() => {
-    if (paused || !near || !pageVisible) return;
-    const timer = window.setInterval(() => setStep(previous => (previous + 1) % 4), 2400);
+    if (paused || !near || !pageVisible || interacting) return;
+    const timer = window.setInterval(() => setPlayback(previous => previous.step === 3
+      ? { step: 0, exampleIndex: (previous.exampleIndex + 1) % HERO_EXAMPLES.length }
+      : { ...previous, step: previous.step + 1 }), 2400);
     return () => window.clearInterval(timer);
-  }, [paused, near, pageVisible, exampleIndex]);
+  }, [paused, near, pageVisible, exampleIndex, interacting]);
 
   const phase = paused ? 3 : step;
   const frame = example.frames[phase];
   const Icon = frame.icon;
-  const selectExample = (index: number) => { setExampleIndex(index); setStep(0); };
-  return <div ref={ref} className="hero-workflow hero-workflow-transform" data-phase={phase} data-example={example.id} aria-label="Explore AI solutions and learning opportunities">
+  const selectExample = (index: number) => setPlayback({ exampleIndex: index, step: 0 });
+  return <div ref={ref} className="hero-workflow hero-workflow-transform" data-phase={phase} data-example={example.id} aria-label="Explore AI solutions and learning opportunities"
+    onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setInteracting(false); }}>
     <div className="workflow-topline"><span className="workflow-dot" /> Build with AI. Grow your skills. <span className="workflow-example-label">Examples</span></div>
     <div className="hero-example-tabs" role="tablist" aria-label="Explore our capabilities">
       {HERO_EXAMPLES.map((item, index) => <button type="button" role="tab" key={item.id}
@@ -45,7 +48,7 @@ export function HeroWorkflow() {
         }}>{item.label}</button>)}
     </div>
     <div id="hero-example-panel" role="tabpanel" aria-labelledby={`example-${example.id}`}>
-    <HeroTransformation phase={phase} example={example} animating={near && pageVisible && !paused} />
+    <HeroTransformation phase={phase} example={example} animating={near && pageVisible && !paused && !interacting} />
     <div className="workflow-message" key={`${example.id}-${phase}`}>
       <Icon size={21} aria-hidden="true" />
       <div><span className="workflow-small-label">{frame.label}</span><p>{frame.message}</p></div>

@@ -8,6 +8,23 @@ import { WorkflowExample } from '../src/components/WorkflowExample';
 import { MonoNavbar } from '../src/components/MonoNavbar';
 
 describe('homepage visitor journeys', () => {
+  it('automatically explores capabilities and pauses while a visitor uses the panel', () => {
+    vi.useFakeTimers();
+    vi.spyOn(globalThis, 'IntersectionObserver').mockImplementation(function(callback: IntersectionObserverCallback) {
+      return { observe() { callback([{ isIntersecting: true }] as IntersectionObserverEntry[], {} as IntersectionObserver); }, disconnect() {} } as unknown as IntersectionObserver;
+    } as unknown as typeof IntersectionObserver);
+    const { container } = render(<HeroWorkflow />);
+    const workflow = container.querySelector('.hero-workflow')!;
+    act(() => { vi.advanceTimersByTime(9600); });
+    expect(workflow.getAttribute('data-example')).toBe('agents');
+    const tab = screen.getByRole('tab', { name: 'AI agents' });
+    fireEvent.focus(tab);
+    act(() => { vi.advanceTimersByTime(20000); });
+    expect(workflow.getAttribute('data-example')).toBe('agents');
+    fireEvent.blur(tab, { relatedTarget: document.body });
+    act(() => { vi.advanceTimersByTime(9600); });
+    expect(workflow.getAttribute('data-example')).toBe('voice');
+  });
   it('supports keyboard exploration without playback controls', () => {
     render(<HeroWorkflow />);
     fireEvent.keyDown(screen.getByRole('tab', { name: 'WhatsApp & CRM' }), { key: 'ArrowRight' });
